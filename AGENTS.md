@@ -19,25 +19,34 @@
 
 ## Repo layout
 
-| Path                                                      | Role                                                             |
-| --------------------------------------------------------- | ---------------------------------------------------------------- |
-| `Assets/Scripts/`                                         | Gameplay C# (player, interact, ballot, inventory, pause)         |
-| `Assets/Scripts/PlayerController/`                        | Movement / look / interaction / inventory handlers               |
-| `Assets/Scripts/InteractableObjects/`                     | World interactables (e.g. ballot)                                |
-| `Assets/Scenes/SampleScene.unity`                         | Dev/test sandbox — keep; do not replace with the polling station |
-| `Assets/Settings/`                                        | URP PC/Mobile assets + volume profile                            |
-| `Assets/QuickOutline/`                                    | Outline plugin (Scripts + Resources only)                        |
-| `Assets/Materials/`, `Prefabs/`, `Sprites/`, `Inventory/` | Greybox mats, UI prefabs, test sprites/items                     |
-| `Packages/`, `ProjectSettings/`                           | UPM + Unity project settings                                     |
-| `docs/ROADMAP.md`                                         | Product roadmap (Russian; human planning)                        |
-| `.cursor/rules/`                                          | Cursor agent rules (skills routing, conventions)                 |
-| `.gitignore` / `.gitattributes`                           | Unity ignore + YAML merge + Git LFS                              |
+| Path                                                      | Role                                                                |
+| --------------------------------------------------------- | ------------------------------------------------------------------- |
+| `Assets/Scripts/`                                         | Gameplay C# (player, interact, ballot, inventory, pause)            |
+| `Assets/Scripts/PlayerController/`                        | Movement / look / interaction / inventory handlers                  |
+| `Assets/Scripts/InteractableObjects/`                     | World interactables (e.g. ballot)                                   |
+| `Assets/Scenes/SampleScene.unity`                         | Dev/test sandbox — keep; do not replace with the polling station    |
+| `Assets/Scenes/PollingStation.unity`                      | Sports-hall greybox 12×24×6 (specs); windows W, doors E             |
+| `Assets/Prefabs/Player.prefab`                            | FPS player extracted from SampleScene                               |
+| `Assets/Prefabs/PlayerHUD.prefab`                         | Canvas (pause / inventory / prompts)                                |
+| `Assets/Settings/`                                        | URP PC/Mobile assets + volume profile                               |
+| `Assets/QuickOutline/`                                    | Outline plugin (Scripts + Resources only)                           |
+| `Assets/Art/Interior/PollingStation/`                     | Sports-hall polling station art (Models/Materials/Textures/Prefabs) |
+| `Assets/Art/Interior/Home/`                               | Home location art (same subfolders)                                 |
+| `Assets/Art/Exterior/<Location>/`                         | Exterior per location (e.g. `Street/`)                              |
+| `Assets/Art/Shared/`                                      | Shared materials & textures                                         |
+| `Assets/Materials/`, `Prefabs/`, `Sprites/`, `Inventory/` | Greybox mats, UI prefabs, test sprites/items                        |
+| `Packages/`, `ProjectSettings/`                           | UPM + Unity project settings                                        |
+| `docs/ROADMAP.md`                                         | Product roadmap (Russian; human planning)                           |
+| `.cursor/rules/`                                          | Cursor agent rules (skills routing, conventions)                    |
+| `.gitignore` / `.gitattributes`                           | Unity ignore + YAML merge + Git LFS                                 |
 
 ## Current gameplay state
 
 Implemented (prototype in `SampleScene`): FPS walk/look/sprint/jump; raycast interact (E); grab/throw/drop; inventory hotbar; ballot draw UI; pause menu; QuickOutline highlights.
 
-Not done yet (roadmap Stage 1–2+): dedicated polling-station greybox scene; registration desk flow; ballot validation; ballot box; on-screen guidance; main menu; candidates; Windows build polish.
+Not done yet (roadmap Stage 1–2+): furnish polling station (desk/booth/urn); registration desk flow; ballot validation; ballot box; on-screen guidance; main menu; candidates; Windows build polish.
+
+Greybox room scene exists: `PollingStation.unity` (rebuild via menu **Voting Sim → Build Polling Station Greybox Scene** or `PollingStationSceneBuilder.Build`).
 
 ## Required skills (read before related work)
 
