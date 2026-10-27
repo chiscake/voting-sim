@@ -105,9 +105,20 @@ Do **not** pull unrelated stacks (MAUI, Blazor, web, etc.) into this repo.
 ## Git / LFS
 
 - Branch work away from `main` for features (e.g. greybox station).
-- **Commits on `main`:** write commit messages in **Russian**.
-- **Merging a feature branch into `main`:** use a merge commit whose message **summarizes in Russian** what the branch adds (not a bare "Merge branch …").
-- Feature-branch commits may stay in English.
+- **Commit message format (all branches):** [Conventional Commits](https://www.conventionalcommits.org/) with a **bulleted body**.
+  - Subject: `type: short description` — types include `feat`, `fix`, `docs`, `refactor`, `style`, `test`, `chore`, `build`, `ci`, `perf`.
+  - Body: bullet list of what changed (`- …`).
+  - On **`main`:** subject description and bullets in **Russian** (type stays English).
+  - On feature branches: English is OK.
+  - Example:
+    ```
+    feat: greybox сцена избирательного участка, очистка и база для арта
+
+    - добавлена сцена PollingStation
+    - удалены туториалы TMP/URP
+    - настроен EditorConfig UTF-8
+    ```
+- **Merging into `main`:** merge commit must use the same format and **summarize** what the branch adds (not a bare `Merge branch …`).
 - `.gitattributes`: text/diff for C#/shaders; `merge=unityyamlmerge` + `eol=lf` for Unity YAML; Git LFS for images, audio, video, 3D, fonts, `.dll`, `.unitypackage`, etc. Also LFS for `.blend` / `.fbx` / `.glb`.
 - Never commit secrets or local Editor caches.
 
