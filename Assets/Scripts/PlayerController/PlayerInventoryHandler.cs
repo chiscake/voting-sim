@@ -22,14 +22,14 @@ public class PlayerInventoryHandler
     {
         this.owner = owner;
 
-        // Находим панель инвентаря на сцене
+        // РќР°С…РѕРґРёРј РїР°РЅРµР»СЊ РёРЅРІРµРЅС‚Р°СЂСЏ РЅР° СЃС†РµРЅРµ
         GameObject panelObj = GameObject.Find("InventoryPanel");
         if (panelObj != null)
         {
             inventorySlotsParent = panelObj.transform;
         }
 
-        // Автоматически определяем количество ячеек, которые вы создали в UI!
+        // РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё РѕРїСЂРµРґРµР»СЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ СЏС‡РµРµРє, РєРѕС‚РѕСЂС‹Рµ РІС‹ СЃРѕР·РґР°Р»Рё РІ UI!
         int slotCount = inventorySlotsParent != null ? inventorySlotsParent.childCount : 3;
         owner.inventorySize = slotCount;
 
@@ -39,7 +39,7 @@ public class PlayerInventoryHandler
             inventory[i] = new InventorySlot();
         }
 
-        // Собираем уже существующие на сцене ячейки из UI
+        // РЎРѕР±РёСЂР°РµРј СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ РЅР° СЃС†РµРЅРµ СЏС‡РµР№РєРё РёР· UI
         spawnedSlots.Clear();
         if (inventorySlotsParent != null)
         {
@@ -56,7 +56,7 @@ public class PlayerInventoryHandler
     {
         if (Keyboard.current != null)
         {
-            // Динамический опрос цифровых клавиш от 1 до количества ячеек (до 9 штук)
+            // Р”РёРЅР°РјРёС‡РµСЃРєРёР№ РѕРїСЂРѕСЃ С†РёС„СЂРѕРІС‹С… РєР»Р°РІРёС€ РѕС‚ 1 РґРѕ РєРѕР»РёС‡РµСЃС‚РІР° СЏС‡РµРµРє (РґРѕ 9 С€С‚СѓРє)
             for (int i = 0; i < Mathf.Min(inventory.Length, 9); i++)
             {
                 Key digitKey = Key.Digit1 + i;
@@ -150,13 +150,13 @@ public class PlayerInventoryHandler
             Transform iconTransform = slotObj.transform.Find("ItemIcon");
             Image iconImg = iconTransform != null ? iconTransform.GetComponent<Image>() : null;
 
-            // Визуальное выделение активной ячейки изменением цвета фона
+            // Р’РёР·СѓР°Р»СЊРЅРѕРµ РІС‹РґРµР»РµРЅРёРµ Р°РєС‚РёРІРЅРѕР№ СЏС‡РµР№РєРё РёР·РјРµРЅРµРЅРёРµРј С†РІРµС‚Р° С„РѕРЅР°
             if (slotBg != null)
             {
-                slotBg.color = (i == selectedSlotIndex) ? new Color(1f, 0.9f, 0.3f, 1f) : Color.white; // Желтоватый цвет для активной
+                slotBg.color = (i == selectedSlotIndex) ? new Color(1f, 0.9f, 0.3f, 1f) : Color.white; // Р–РµР»С‚РѕРІР°С‚С‹Р№ С†РІРµС‚ РґР»СЏ Р°РєС‚РёРІРЅРѕР№
             }
 
-            // Отображение иконки предмета
+            // РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РёРєРѕРЅРєРё РїСЂРµРґРјРµС‚Р°
             if (iconImg != null)
             {
                 if (!inventory[i].IsEmpty && inventory[i].itemData.icon != null)

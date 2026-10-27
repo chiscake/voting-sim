@@ -45,12 +45,12 @@ public class PlayerController : MonoBehaviour
     public InputActionReference throwAction;
     public InputActionReference dropAction;
     public InputActionReference pickAction;
-    public InputActionReference interactAction; // Новое действие 'interact' (клавиша E)
+    public InputActionReference interactAction; // РќРѕРІРѕРµ РґРµР№СЃС‚РІРёРµ 'interact' (РєР»Р°РІРёС€Р° E)
 
     [HideInInspector] public Camera mainCamera;
     [HideInInspector] public CharacterController characterController;
     [HideInInspector] public bool isPaused = false;
-    [HideInInspector] public bool isDrawingMode = false; // Флаг режима заполнения бюллетеня
+    [HideInInspector] public bool isDrawingMode = false; // Р¤Р»Р°Рі СЂРµР¶РёРјР° Р·Р°РїРѕР»РЅРµРЅРёСЏ Р±СЋР»Р»РµС‚РµРЅСЏ
 
     private PlayerMovementHandler movementHandler;
     private PlayerLookHandler lookHandler;
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
     {
         HandlePauseInput();
 
-        if (isPaused || isDrawingMode) return; // Если рисуем или на паузе — управление игроком заблокировано
+        if (isPaused || isDrawingMode) return; // Р•СЃР»Рё СЂРёСЃСѓРµРј РёР»Рё РЅР° РїР°СѓР·Рµ вЂ” СѓРїСЂР°РІР»РµРЅРёРµ РёРіСЂРѕРєРѕРј Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅРѕ
 
         movementHandler.Update();
         interactionHandler.Update();

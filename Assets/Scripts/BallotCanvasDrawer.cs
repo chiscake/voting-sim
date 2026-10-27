@@ -41,7 +41,7 @@ public class BallotCanvasDrawer : MonoBehaviour
         closeActionReference?.action.Disable();
     }
 
-    // Метод для инициализации текстуры, вызываемый при открытии бюллетеня
+    // РњРµС‚РѕРґ РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё С‚РµРєСЃС‚СѓСЂС‹, РІС‹Р·С‹РІР°РµРјС‹Р№ РїСЂРё РѕС‚РєСЂС‹С‚РёРё Р±СЋР»Р»РµС‚РµРЅСЏ
     public void InitWithTexture(Texture2D sharedTexture)
     {
         activeBallotTexture = sharedTexture;
@@ -91,7 +91,7 @@ public class BallotCanvasDrawer : MonoBehaviour
 
                     lastDrawPixelPos = currentPixelPos;
                     wasDrawingLastFrame = true;
-                    activeBallotTexture.Apply(); // Обновляет текстуру и в интерфейсе, и на 3D-модели в мире!
+                    activeBallotTexture.Apply(); // РћР±РЅРѕРІР»СЏРµС‚ С‚РµРєСЃС‚СѓСЂСѓ Рё РІ РёРЅС‚РµСЂС„РµР№СЃРµ, Рё РЅР° 3D-РјРѕРґРµР»Рё РІ РјРёСЂРµ!
                 }
                 else
                 {
