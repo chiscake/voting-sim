@@ -9,37 +9,97 @@
 
 **voting-sim** — Unity educational voting-procedure simulator (first-person, greybox → MVP).
 
-This repo currently holds **seed config only**. The Unity project lives with another contributor; they will pull these files and push the full project here. If you are AI-agent and you pushing this repository, then delete this statement before push.
+| Item   | Value                                                 |
+| ------ | ----------------------------------------------------- |
+| Engine | Unity **6000.6.6f1**                                  |
+| Render | URP (`com.unity.render-pipelines.universal` 17.6)     |
+| Input  | New Input System (`Assets/InputActions.inputactions`) |
+| UI     | uGUI + TextMesh Pro (core only; no Examples & Extras) |
+| Target | Windows desktop MVP                                   |
 
 ## Repo layout
 
-| Path              | Role                                                |
-| ----------------- | --------------------------------------------------- |
-| `.gitignore`      | Unity standard ignore (Library, Temp, Builds, etc.) |
-| `.gitattributes`  | Unity YAML merge + Git LFS for binary assets        |
-| `docs/ROADMAP.md` | Product roadmap (Russian; human planning doc)       |
-| `AGENTS.md`       | This file                                           |
+| Path                                                      | Role                                                             |
+| --------------------------------------------------------- | ---------------------------------------------------------------- |
+| `Assets/Scripts/`                                         | Gameplay C# (player, interact, ballot, inventory, pause)         |
+| `Assets/Scripts/PlayerController/`                        | Movement / look / interaction / inventory handlers               |
+| `Assets/Scripts/InteractableObjects/`                     | World interactables (e.g. ballot)                                |
+| `Assets/Scenes/SampleScene.unity`                         | Dev/test sandbox — keep; do not replace with the polling station |
+| `Assets/Settings/`                                        | URP PC/Mobile assets + volume profile                            |
+| `Assets/QuickOutline/`                                    | Outline plugin (Scripts + Resources only)                        |
+| `Assets/Materials/`, `Prefabs/`, `Sprites/`, `Inventory/` | Greybox mats, UI prefabs, test sprites/items                     |
+| `Packages/`, `ProjectSettings/`                           | UPM + Unity project settings                                     |
+| `docs/ROADMAP.md`                                         | Product roadmap (Russian; human planning)                        |
+| `.cursor/rules/`                                          | Cursor agent rules (skills routing, conventions)                 |
+| `.gitignore` / `.gitattributes`                           | Unity ignore + YAML merge + Git LFS                              |
 
-Expect a normal Unity root once the project lands: `Assets/`, `Packages/`, `ProjectSettings/`.
+## Current gameplay state
 
-## Git / LFS (important)
+Implemented (prototype in `SampleScene`): FPS walk/look/sprint/jump; raycast interact (E); grab/throw/drop; inventory hotbar; ballot draw UI; pause menu; QuickOutline highlights.
 
-- **Not a git repo yet** in this folder until `git init` / clone is done on the machine that owns the Unity project.
-- `.gitattributes`: text/diff for C#/shaders; `merge=unityyamlmerge` + `eol=lf` for Unity YAML (`.mat`, `.prefab`, `.unity`, `.meta`, etc.); **Git LFS** for images, audio, video, 3D, fonts, `.dll`, `.unitypackage`, etc.
-- Agents must not commit ignored Unity caches (`Library/`, `Temp/`, `Logs/`, `UserSettings/`, etc.).
+Not done yet (roadmap Stage 1–2+): dedicated polling-station greybox scene; registration desk flow; ballot validation; ballot box; on-screen guidance; main menu; candidates; Windows build polish.
 
-## Product context (for agents)
+## Required skills (read before related work)
 
-Roadmap lives in `docs/ROADMAP.md`. Short map:
+Agent skills live under the user's installed skills roots (e.g. `.agents/skills/`). **Read the matching `SKILL.md` before implementing.** Cursor rules in `.cursor/rules/` reinforce this.
 
-1. **Stage 0** — repo, Unity 6, folder structure
-2. **Stage 1** — FPS walk + interact (E), greybox polling station
-3. **Stage 2** — voting MVP (register → ballot → validate → ballot box)
-4. **Stage 3** — on-screen guidance + end feedback
-5. **Stage 4** — menu/pause/settings, candidates, Windows build → full playthrough MVP
+| When                                  | Skill name                                         |
+| ------------------------------------- | -------------------------------------------------- |
+| Any Unity `.cs` / MonoBehaviour       | `unity-csharp-scripting`                           |
+| Input / `.inputactions` / actions     | `unity-input-system`                               |
+| UI without named framework            | `ui` (then route)                                  |
+| Canvas / RectTransform / uGUI         | `ui-ugui`                                          |
+| Colliders, triggers, raycasts miss    | `physics-3d-collision`                             |
+| Drive Editor / scenes / batch / tests | `unity-cli` (+ `unity-pipeline` if Editor is open) |
+| URP Volume / post-processing          | `urp-postprocessing`                               |
+| Add/remove/upgrade UPM packages       | `unity-package-management`                         |
+| TMP fonts / atlas / performance       | `optimize-text-mesh-pro`                           |
+| Project Auditor CSV fixes             | `project-auditor-fixes`                            |
 
-## Agent workflow notes
+Do **not** pull unrelated stacks (MAUI, Blazor, web, etc.) into this repo.
+
+## Setup / open project
+
+- Open folder in Unity Hub with Editor **6000.6.6f1** (or matching 6000.6.x).
+- First open generates `Library/` (gitignored). Wait for import + script compile.
+- CLI (if installed): `unity` / Unity Editor batchmode against this project path.
+- Do not commit `Library/`, `Temp/`, `Logs/`, `UserSettings/`, `obj/`, Builds.
+
+## Development workflow
 
 - Prefer English in code, comments, commit messages, and agent docs.
-- Do not invent Unity project structure here until the real project is pushed; edit seed configs carefully so they remain merge-friendly for the incoming Unity tree.
-- Human roadmap is Russian; when aligning work with it, translate intent — do not rewrite `docs/ROADMAP.md` unless asked.
+- `SampleScene` = tests/sandbox. New playable space (polling station greybox) = **new scene** under `Assets/Scenes/`; add to Build Settings when ready; do not overwrite SampleScene.
+- Keep `.meta` files with their assets; never hand-delete `.meta` without the asset (or vice versa).
+- Prefer editing scenes/prefabs via Unity Editor or `unity-cli` / pipeline when available — avoid huge blind YAML edits unless necessary.
+- UPM: use Package Manager / `unity-package-management` skill — avoid casual hand-edits to `Packages/manifest.json`.
+- Roadmap is Russian in `docs/ROADMAP.md`; translate intent when aligning work — do not rewrite it unless asked.
+
+## Code style
+
+- C# / Unity idioms per `unity-csharp-scripting` (lifecycle, `[SerializeField]`, no heavy `Find` in `Update`).
+- New scripts under `Assets/Scripts/` (or a clear subfolder); match existing handler split under `PlayerController/`.
+- uGUI for runtime UI unless a decision is made to migrate.
+- New Input System only — do not reintroduce legacy `Input.GetAxis` / `Input.GetKey` for gameplay.
+- **Encoding:** all text sources UTF-8 (see root `.editorconfig` `charset = utf-8`). Never save `.cs` as Windows-1251 — Cyrillic comments break on GitHub and other machines.
+
+## Testing
+
+- Manual play in Editor (SampleScene / future station scene).
+- `com.unity.test-framework` is present; add EditMode/PlayMode tests under `Assets/` when introducing non-trivial logic (ballot validity, voter state).
+- With Editor + pipeline: `unity command` test runners per `unity-cli` / `unity-pipeline`.
+
+## Build
+
+- MVP target: Windows standalone (roadmap Stage 4).
+- Use Unity Build Settings / CLI build — do not commit build output folders.
+
+## Git / LFS
+
+- Branch work away from `main` for features (e.g. greybox station).
+- `.gitattributes`: text/diff for C#/shaders; `merge=unityyamlmerge` + `eol=lf` for Unity YAML; Git LFS for images, audio, video, 3D, fonts, `.dll`, `.unitypackage`, etc.
+- Never commit secrets or local Editor caches.
+
+## Cleanup policy
+
+Already removed: URP `TutorialInfo`, root `Readme.asset`, TMP `Examples & Extras`, QuickOutline `Samples`.
+Keep unless asked otherwise: test sprites (`Коля`, `Серая сфера`), `Sphere` prefab, `NewItemData`, TMP core (`Fonts` / `Resources` / `Shaders`), QuickOutline Scripts + Resources.

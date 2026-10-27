@@ -1,0 +1,16 @@
+---
+description: Unity C# gameplay scripts conventions for voting-sim
+globs: Assets/**/*.cs
+alwaysApply: false
+---
+
+# Unity C# in voting-sim
+
+Before editing: read skill `unity-csharp-scripting`.
+
+- Prefer `[SerializeField]` private fields over public fields for Inspector wiring.
+- Cache component refs in `Awake`/`Start`; avoid per-frame `Find*` / `GetComponent` in `Update`.
+- New player-related behaviour: extend or add handlers under `Assets/Scripts/PlayerController/` when it fits the existing split (movement, look, interaction, inventory).
+- World interactions: implement `IInteractable` where appropriate (`Assets/Scripts/IInteractable.cs`).
+- Input: New Input System only (`unity-input-system` skill); do not use legacy `Input.GetKey` / `Input.GetAxis` for gameplay.
+- Runtime UI: uGUI (`ui-ugui`); consult `ui` first if framework choice is unclear.

@@ -1,0 +1,40 @@
+---
+description: voting-sim agent conventions and required Unity skills
+alwaysApply: true
+---
+
+# voting-sim — agent rules
+
+Read `AGENTS.md` at the repo root for layout, roadmap stage, and cleanup policy.
+
+## Language & docs
+
+- Code, comments, commits, agent docs: English.
+- Do not rewrite `docs/ROADMAP.md` unless the user asks (it is Russian, human-facing).
+
+## Scenes
+
+- `Assets/Scenes/SampleScene.unity` is the **test/sandbox** scene — keep it.
+- Polling-station greybox and future playable levels go in **new** scene assets under `Assets/Scenes/`.
+
+## Skills — read `SKILL.md` before implementing
+
+| Trigger                                 | Skill                                           |
+| --------------------------------------- | ----------------------------------------------- |
+| Unity C# / MonoBehaviour                | `unity-csharp-scripting`                        |
+| Input System / `.inputactions`          | `unity-input-system`                            |
+| UI (unspecified)                        | `ui` then specialized                           |
+| Canvas / uGUI                           | `ui-ugui`                                       |
+| Physics / triggers / raycasts           | `physics-3d-collision`                          |
+| Editor automation / scene edits via CLI | `unity-cli` (+ `unity-pipeline` if Editor open) |
+| URP Volume / post-fx                    | `urp-postprocessing`                            |
+| UPM packages                            | `unity-package-management`                      |
+
+Ignore unrelated ecosystems (web, MAUI, Blazor, etc.).
+
+## Git / assets
+
+- Do not commit `Library/`, `Temp/`, `Logs/`, `UserSettings/`, build folders.
+- Keep `.meta` paired with assets.
+- Prefer Unity Editor / `unity-cli` for scene/prefab changes over large hand-edited YAML.
+- Save all `.cs` (and other text sources) as **UTF-8** per `.editorconfig`. Do not use Windows-1251.
