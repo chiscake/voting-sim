@@ -5,5 +5,5 @@ public class ItemData : ScriptableObject
 {
     public string itemName;
     public Sprite icon;
-    public GameObject itemPrefab; // Настоящий префаб хранится здесь в безопасности
+    public GameObject itemPrefab; // РќР°СЃС‚РѕСЏС‰РёР№ РїСЂРµС„Р°Р± С…СЂР°РЅРёС‚СЃСЏ Р·РґРµСЃСЊ РІ Р±РµР·РѕРїР°СЃРЅРѕСЃС‚Рё
 }

@@ -1,5 +1,5 @@
 public interface IInteractable
 {
-    string GetInteractPrompt(); // Текст подсказки для экрана (например, "Сесть за стол" или "Взять ручку")
-    void Interact(PlayerController player); // Сам сигнал взаимодействия
+    string GetInteractPrompt(); // РўРµРєСЃС‚ РїРѕРґСЃРєР°Р·РєРё РґР»СЏ СЌРєСЂР°РЅР° (РЅР°РїСЂРёРјРµСЂ, "РЎРµСЃС‚СЊ Р·Р° СЃС‚РѕР»" РёР»Рё "Р’Р·СЏС‚СЊ СЂСѓС‡РєСѓ")
+    void Interact(PlayerController player); // РЎР°Рј СЃРёРіРЅР°Р» РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ
 }

@@ -4,11 +4,11 @@ using UnityEngine.UI;
 public class BallotInteractable : MonoBehaviour, IInteractable
 {
     [Header("UI References")]
-    [SerializeField] private GameObject ballotDrawingScreenUI; // Панель рисования на экране
-    [SerializeField] private RawImage worldBallotRawImage; // RawImage на Canvas в 3D мире (над столом)
+    [SerializeField] private GameObject ballotDrawingScreenUI; // РџР°РЅРµР»СЊ СЂРёСЃРѕРІР°РЅРёСЏ РЅР° СЌРєСЂР°РЅРµ
+    [SerializeField] private RawImage worldBallotRawImage; // RawImage РЅР° Canvas РІ 3D РјРёСЂРµ (РЅР°Рґ СЃС‚РѕР»РѕРј)
 
     [Header("Template Texture")]
-    [SerializeField] private Texture2D ballotTemplate; // Исходный макет бюллетеня (Read/Write Enabled)
+    [SerializeField] private Texture2D ballotTemplate; // РСЃС…РѕРґРЅС‹Р№ РјР°РєРµС‚ Р±СЋР»Р»РµС‚РµРЅСЏ (Read/Write Enabled)
 
     private Texture2D sharedBallotTexture;
 
@@ -16,23 +16,23 @@ public class BallotInteractable : MonoBehaviour, IInteractable
     {
         if (ballotTemplate != null && worldBallotRawImage != null)
         {
-            // Создаем единую дублированную текстуру для рисования
+            // РЎРѕР·РґР°РµРј РµРґРёРЅСѓСЋ РґСѓР±Р»РёСЂРѕРІР°РЅРЅСѓСЋ С‚РµРєСЃС‚СѓСЂСѓ РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ
             sharedBallotTexture = new Texture2D(ballotTemplate.width, ballotTemplate.height, TextureFormat.RGBA32, false);
             sharedBallotTexture.SetPixels(ballotTemplate.GetPixels());
             sharedBallotTexture.Apply();
 
-            // Назначаем текстуру на World Space Canvas над столом
+            // РќР°Р·РЅР°С‡Р°РµРј С‚РµРєСЃС‚СѓСЂСѓ РЅР° World Space Canvas РЅР°Рґ СЃС‚РѕР»РѕРј
             worldBallotRawImage.texture = sharedBallotTexture;
         }
         else
         {
-            Debug.LogWarning("Заполните World Ballot Raw Image и Ballot Template в BallotInteractable!");
+            Debug.LogWarning("Р—Р°РїРѕР»РЅРёС‚Рµ World Ballot Raw Image Рё Ballot Template РІ BallotInteractable!");
         }
     }
 
     public string GetInteractPrompt()
     {
-        return "[E] Заполнить бюллетень";
+        return "[E] Р—Р°РїРѕР»РЅРёС‚СЊ Р±СЋР»Р»РµС‚РµРЅСЊ";
     }
 
     public void Interact(PlayerController player)
@@ -41,7 +41,7 @@ public class BallotInteractable : MonoBehaviour, IInteractable
         {
             ballotDrawingScreenUI.SetActive(true);
 
-            // Передаем ту же самую текстуру в Screen Space UI
+            // РџРµСЂРµРґР°РµРј С‚Сѓ Р¶Рµ СЃР°РјСѓСЋ С‚РµРєСЃС‚СѓСЂСѓ РІ Screen Space UI
             BallotCanvasDrawer drawer = ballotDrawingScreenUI.GetComponent<BallotCanvasDrawer>();
             if (drawer != null)
             {

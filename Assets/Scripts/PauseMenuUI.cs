@@ -9,7 +9,7 @@ public class PauseMenuUI : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
     }
 
-    // Метод для кнопки "Продолжить" (Resume)
+    // РњРµС‚РѕРґ РґР»СЏ РєРЅРѕРїРєРё "РџСЂРѕРґРѕР»Р¶РёС‚СЊ" (Resume)
     public void ResumeGame()
     {
         if (playerController != null)
@@ -18,11 +18,11 @@ public class PauseMenuUI : MonoBehaviour
         }
     }
 
-    // Метод для кнопки "Выход в главное меню" или закрытия игры
+    // РњРµС‚РѕРґ РґР»СЏ РєРЅРѕРїРєРё "Р’С‹С…РѕРґ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ" РёР»Рё Р·Р°РєСЂС‹С‚РёСЏ РёРіСЂС‹
     public void QuitGame()
     {
         Time.timeScale = 1f;
-        Debug.Log("Выход из игры...");
+        Debug.Log("Р’С‹С…РѕРґ РёР· РёРіСЂС‹...");
         Application.Quit();
     }
 }

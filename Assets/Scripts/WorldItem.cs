@@ -2,5 +2,5 @@ using UnityEngine;
 
 public class WorldItem : MonoBehaviour
 {
-    public ItemData itemData; // Перетаскиваем сюда наш ScriptableObject
+    public ItemData itemData; // РџРµСЂРµС‚Р°СЃРєРёРІР°РµРј СЃСЋРґР° РЅР°С€ ScriptableObject
 }
