@@ -105,7 +105,10 @@ Do **not** pull unrelated stacks (MAUI, Blazor, web, etc.) into this repo.
 ## Git / LFS
 
 - Branch work away from `main` for features (e.g. greybox station).
-- `.gitattributes`: text/diff for C#/shaders; `merge=unityyamlmerge` + `eol=lf` for Unity YAML; Git LFS for images, audio, video, 3D, fonts, `.dll`, `.unitypackage`, etc.
+- **Commits on `main`:** write commit messages in **Russian**.
+- **Merging a feature branch into `main`:** use a merge commit whose message **summarizes in Russian** what the branch adds (not a bare "Merge branch …").
+- Feature-branch commits may stay in English.
+- `.gitattributes`: text/diff for C#/shaders; `merge=unityyamlmerge` + `eol=lf` for Unity YAML; Git LFS for images, audio, video, 3D, fonts, `.dll`, `.unitypackage`, etc. Also LFS for `.blend` / `.fbx` / `.glb`.
 - Never commit secrets or local Editor caches.
 
 ## Cleanup policy

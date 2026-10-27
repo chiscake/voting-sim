@@ -38,3 +38,4 @@ Ignore unrelated ecosystems (web, MAUI, Blazor, etc.).
 - Keep `.meta` paired with assets.
 - Prefer Unity Editor / `unity-cli` for scene/prefab changes over large hand-edited YAML.
 - Save all `.cs` (and other text sources) as **UTF-8** per `.editorconfig`. Do not use Windows-1251.
+- Commits on `main`: Russian messages. Merge commits into `main`: Russian summary of what the branch adds.
