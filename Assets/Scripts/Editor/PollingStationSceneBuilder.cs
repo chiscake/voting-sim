@@ -221,7 +221,7 @@ public static class PollingStationSceneBuilder
     static void BuildWindowWallAlongZ(Transform parent, string prefix, float x, Material mat)
     {
         float halfL = RoomLength * 0.5f;
-        float t = WallThickness;
+        // float t = WallThickness;
         float usable = RoomLength - 2f; // margins from corners
         float step = usable / (WindowCount + 1);
 

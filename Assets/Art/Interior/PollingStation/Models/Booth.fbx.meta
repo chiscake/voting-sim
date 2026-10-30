@@ -1,9 +1,84 @@
 fileFormatVersion: 2
-guid: 6722caa005f4bfd4793a93ac25f6b90d
+guid: 935052ae6b325e342840afb477d80b5d
 ModelImporter:
   serializedVersion: 24600
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BlackPlastic
+    second: {fileID: 2100000, guid: 9a57dd555ff959e4ea139df88ba61277, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CoatOfArms
+    second: {fileID: 2100000, guid: f3620d1300c77714fb1890c1f1783cd0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FrostedGlass
+    second: {fileID: 2100000, guid: ce0823a581a408d4b90b421e6b881ece, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glossy
+    second: {fileID: 2100000, guid: 825fc134e02675045aa197c4aea7267b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GlossySteel
+    second: {fileID: 2100000, guid: 7243903fdb809904e9f1e0c1a8e3d091, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Matte
+    second: {fileID: 2100000, guid: 0c7e02d92fe7d3d46b9fb780900a6b34, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SVGMat.001
+    second: {fileID: 2100000, guid: 543c578aa567e7a498e68aa16e5dbf92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SVGMat.002
+    second: {fileID: 2100000, guid: 543c578aa567e7a498e68aa16e5dbf92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SVGMat.003
+    second: {fileID: 2100000, guid: 543c578aa567e7a498e68aa16e5dbf92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SVGMat.004
+    second: {fileID: 2100000, guid: 543c578aa567e7a498e68aa16e5dbf92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SVGMat.005
+    second: {fileID: 2100000, guid: 543c578aa567e7a498e68aa16e5dbf92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SVGMat.006
+    second: {fileID: 2100000, guid: 543c578aa567e7a498e68aa16e5dbf92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SVGMat.007
+    second: {fileID: 2100000, guid: 543c578aa567e7a498e68aa16e5dbf92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ThickWhitePaper
+    second: {fileID: 2100000, guid: c023fcaa5959c694db45c2dee13b2834, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WoodWhiteLaminate
+    second: {fileID: 2100000, guid: f3a2cc717e674fe4aa15fe15cae8d063, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

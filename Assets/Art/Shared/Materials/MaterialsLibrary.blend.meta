@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: 8136751d58e35d1488b76923abe9a7d3
+guid: 0e16781782d8cf14a8def70ce318a106
 ModelImporter:
   serializedVersion: 24600
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CoatOfArms
+    second: {fileID: 2100000, guid: f3620d1300c77714fb1890c1f1783cd0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FrostedGlass
+    second: {fileID: 2100000, guid: ce0823a581a408d4b90b421e6b881ece, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glossy
+    second: {fileID: 2100000, guid: 825fc134e02675045aa197c4aea7267b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Matte
+    second: {fileID: 2100000, guid: 0c7e02d92fe7d3d46b9fb780900a6b34, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
