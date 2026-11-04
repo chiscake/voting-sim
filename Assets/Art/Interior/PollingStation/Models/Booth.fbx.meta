@@ -27,6 +27,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: GlossyMetal
+    second: {fileID: 2100000, guid: 13c346632ac52c94285e4af04baf65c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: GlossySteel
     second: {fileID: 2100000, guid: 7243903fdb809904e9f1e0c1a8e3d091, type: 2}
   - first:
