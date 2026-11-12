@@ -22,6 +22,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: e79ed9f940761964e8e6db7220dc8004, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Glossy
     second: {fileID: 2100000, guid: 825fc134e02675045aa197c4aea7267b, type: 2}
   - first:
@@ -39,6 +44,21 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Matte
     second: {fileID: 2100000, guid: 0c7e02d92fe7d3d46b9fb780900a6b34, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MetalPaintWhiteLuminaire
+    second: {fileID: 2100000, guid: b9238451a1532cd46bec0bb68a256295, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PVC
+    second: {fileID: 2100000, guid: efac7f59c81244b4dbba3abe7cc4ac07, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PlasticDiffuserWhite
+    second: {fileID: 2100000, guid: 940ce6510fe652f4c8bbe27f96ae59c6, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
