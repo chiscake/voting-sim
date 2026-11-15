@@ -3,12 +3,26 @@ using UnityEngine;
 public class PlayerInteractionHandler
 {
     private PlayerController owner;
-    private Rigidbody heldObject;
     private Outline currentOutline;
+    private LayerMask interactLayerMask; // Маска слоев для луча
 
     public PlayerInteractionHandler(PlayerController owner)
     {
         this.owner = owner;
+
+        // Создаем маску, которая исключает слой "Player". 
+        // Все остальные слои будут проверяться.
+        int playerLayer = LayerMask.NameToLayer("Player");
+        if (playerLayer != -1)
+        {
+            interactLayerMask = ~(1 << playerLayer);
+        }
+        else
+        {
+            // Если слой Player еще не создан, проверяем всё по умолчанию
+            interactLayerMask = Physics.DefaultRaycastLayers;
+            Debug.LogWarning("Слой 'Player' не найден в проекте! Луч может попадать в коллайдеры игрока.");
+        }
     }
 
     public void Update()
@@ -17,20 +31,16 @@ public class PlayerInteractionHandler
         CheckLookAtObject();
     }
 
-    public void LateUpdate()
-    {
-        HandleHeldObjectPosition();
-    }
-
     private void HandleInteractions()
     {
-        // 1. Взаимодействие по клавише E (interactAction)
+        // Взаимодействие по клавише E (interactAction)
         if (owner.interactAction != null && owner.interactAction.action.WasPressedThisFrame())
         {
             if (owner.mainCamera != null)
             {
                 Ray ray = new Ray(owner.mainCamera.transform.position, owner.mainCamera.transform.forward);
-                if (Physics.Raycast(ray, out RaycastHit hit, owner.pickUpRange))
+                // Передаем interactLayerMask в Raycast
+                if (Physics.Raycast(ray, out RaycastHit hit, owner.pickUpRange, interactLayerMask))
                 {
                     IInteractable interactable = hit.collider.GetComponent<IInteractable>();
                     if (interactable != null)
@@ -40,75 +50,17 @@ public class PlayerInteractionHandler
                 }
             }
         }
-
-        // 2. Физический захват в руку (Grab)
-        if (owner.grabAction != null && owner.grabAction.action.WasPressedThisFrame())
-        {
-            if (heldObject == null) TryPickUpPhysicsObject();
-        }
-
-        // 3. Бросок из руки (Throw)
-        if (owner.throwAction != null && owner.throwAction.action.WasPressedThisFrame())
-        {
-            if (heldObject != null) ThrowGrabbedObject();
-        }
-    }
-
-    private void TryPickUpPhysicsObject()
-    {
-        if (owner.mainCamera == null || owner.holdPosition == null) return;
-
-        Ray ray = new Ray(owner.mainCamera.transform.position, owner.mainCamera.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, owner.pickUpRange))
-        {
-            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-            if (rb != null && !rb.isKinematic)
-            {
-                DisableCurrentOutline();
-                heldObject = rb;
-                heldObject.useGravity = false;
-                heldObject.detectCollisions = true;
-                SetPromptText("");
-            }
-        }
-    }
-
-    private void HandleHeldObjectPosition()
-    {
-        if (heldObject != null && owner.holdPosition != null)
-        {
-            heldObject.linearVelocity = Vector3.zero;
-            heldObject.angularVelocity = Vector3.zero;
-
-            heldObject.position = Vector3.Lerp(heldObject.position, owner.holdPosition.position, Time.deltaTime * 25f);
-            heldObject.rotation = Quaternion.Slerp(heldObject.rotation, owner.holdPosition.rotation, Time.deltaTime * 25f);
-        }
-    }
-
-    private void ThrowGrabbedObject()
-    {
-        if (heldObject == null || owner.mainCamera == null) return;
-
-        heldObject.useGravity = true;
-        heldObject.AddForce(owner.mainCamera.transform.forward * owner.throwForce, ForceMode.Impulse);
-        heldObject = null;
     }
 
     private void CheckLookAtObject()
     {
-        if (heldObject != null)
-        {
-            DisableCurrentOutline();
-            SetPromptText("");
-            return;
-        }
-
         if (owner.mainCamera == null) return;
 
         Ray ray = new Ray(owner.mainCamera.transform.position, owner.mainCamera.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, owner.pickUpRange))
+        // Передаем interactLayerMask в Raycast для проверки взгляда и подсветки
+        if (Physics.Raycast(ray, out RaycastHit hit, owner.pickUpRange, interactLayerMask))
         {
-            // 1. Проверяем интерактивный объект (например, стол с бюллетенем)
+            // 1. Проверяем интерактивный объект
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
             if (interactable != null)
             {
@@ -124,20 +76,10 @@ public class PlayerInteractionHandler
                 }
                 else
                 {
-                    // 3. Проверяем физический объект (ЛКМ)
-                    Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-                    if (rb != null && !rb.isKinematic)
-                    {
-                        SetPromptText("[ЛКМ] Взять в руку");
-                    }
-                    else
-                    {
-                        SetPromptText("");
-                    }
+                    SetPromptText("");
                 }
             }
 
-            // Подсветка Outline
             Outline hitOutline = hit.collider.GetComponent<Outline>();
             if (hitOutline != currentOutline)
             {

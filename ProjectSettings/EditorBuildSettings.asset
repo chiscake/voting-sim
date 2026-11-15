@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PollingStation.unity
     guid: 9f71ef4b8d20ad848b0dee93d67817af
+  - enabled: 1
+    path: Assets/Scenes/CharacterCreationScene.unity
+    guid: eb33c5d70ba213b4ab3066f32be26180
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

@@ -22,12 +22,9 @@ public class PlayerController : MonoBehaviour
     public float lookSensitivity = 0.2f;
     public float maxLookAngle = 80f;
 
-    [Header("Interaction Stats")]
-    public Transform holdPosition;
-    public float pickUpRange = 3.0f;
-    public float throwForce = 12.0f;
-
-    [Header("Inventory Stats")]
+    [Header("Inventory & Hand Stats")]
+    public Transform handSocket; // Точка (косточка) в руке персонажа для модели предмета
+    public float pickUpRange = 4.0f;
     [HideInInspector] public int inventorySize = 3;
     public Transform itemDropPoint;
 
@@ -41,21 +38,24 @@ public class PlayerController : MonoBehaviour
     public InputActionReference sprintAction;
     public InputActionReference jumpAction;
     public InputActionReference lookAction;
-    public InputActionReference grabAction;
-    public InputActionReference throwAction;
-    public InputActionReference dropAction;
-    public InputActionReference pickAction;
-    public InputActionReference interactAction; // Новое действие 'interact' (клавиша E)
+    public InputActionReference dropAction;        // G - выбросить из инвентаря
+    public InputActionReference pickAction;        // F - подобрать в инвентарь
+    public InputActionReference interactAction;    // E - взаимодействие (двери, столы)
+    public InputActionReference freeHandsAction;   // Действие освободить руки
+    [Header("Input References - UI")]
+    public InputActionReference closeAction; // Действие Close (например, ПКМ или Esc)
 
     [HideInInspector] public Camera mainCamera;
     [HideInInspector] public CharacterController characterController;
     [HideInInspector] public bool isPaused = false;
-    [HideInInspector] public bool isDrawingMode = false; // Флаг режима заполнения бюллетеня
+    [HideInInspector] public bool isDrawingMode = false;
 
     private PlayerMovementHandler movementHandler;
     private PlayerLookHandler lookHandler;
     private PlayerInteractionHandler interactionHandler;
     private PlayerInventoryHandler inventoryHandler;
+
+    public PlayerInventoryHandler InventoryHandler => inventoryHandler;
 
     private void Start()
     {
@@ -66,8 +66,8 @@ public class PlayerController : MonoBehaviour
 
         movementHandler = new PlayerMovementHandler(this);
         lookHandler = new PlayerLookHandler(this);
-        interactionHandler = new PlayerInteractionHandler(this);
         inventoryHandler = new PlayerInventoryHandler(this);
+        interactionHandler = new PlayerInteractionHandler(this);
 
         if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
         if (interactionPromptText != null) interactionPromptText.text = "";
@@ -79,11 +79,11 @@ public class PlayerController : MonoBehaviour
         sprintAction?.action.Enable();
         jumpAction?.action.Enable();
         lookAction?.action.Enable();
-        grabAction?.action.Enable();
-        throwAction?.action.Enable();
         dropAction?.action.Enable();
         pickAction?.action.Enable();
         interactAction?.action.Enable();
+        freeHandsAction?.action.Enable();
+        closeAction?.action.Enable();
         pauseActionReference?.action.Enable();
     }
 
@@ -93,11 +93,11 @@ public class PlayerController : MonoBehaviour
         sprintAction?.action.Disable();
         jumpAction?.action.Disable();
         lookAction?.action.Disable();
-        grabAction?.action.Disable();
-        throwAction?.action.Disable();
         dropAction?.action.Disable();
         pickAction?.action.Disable();
         interactAction?.action.Disable();
+        freeHandsAction?.action.Disable();
+        closeAction?.action.Disable();
         pauseActionReference?.action.Disable();
     }
 
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
     {
         HandlePauseInput();
 
-        if (isPaused || isDrawingMode) return; // Если рисуем или на паузе — управление игроком заблокировано
+        if (isPaused || isDrawingMode) return;
 
         movementHandler.Update();
         interactionHandler.Update();
@@ -118,7 +118,6 @@ public class PlayerController : MonoBehaviour
 
         lookHandler.LateUpdate();
         movementHandler.LateUpdate();
-        interactionHandler.LateUpdate();
     }
 
     private void HandlePauseInput()

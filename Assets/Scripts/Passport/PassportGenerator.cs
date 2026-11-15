@@ -23,7 +23,7 @@ public static class PassportGenerator
         string end = "PB" + UnityEngine.Random.Range(0, 10).ToString();
         return $"{region}{birthPart}{middle}{end}";
     }
-
+    
     // Генерация даты выдачи (через 18 лет после рождения) и срока действия (+10 лет)
     public static void GenerateDates(string dobStr, out string issueDateStr, out string expiryDateStr)
     {

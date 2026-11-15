@@ -33,19 +33,27 @@ public class PassportView : MonoBehaviour
 
     private void FillPassportData()
     {
-        // Получаем данные игрока из менеджера
+        // 1. Убеждаемся, что уникальные данные паспорта сгенерированы в PlayerData ровно один раз
+        if (PlayerData.Instance != null)
+        {
+            PlayerData.Instance.GeneratePassportDataIfNeeded();
+        }
+
+        // 2. Получаем данные игрока из менеджера
         PlayerData player = PlayerData.Instance;
         string fName = player != null ? player.firstName : "JOHN";
         string lName = player != null ? player.lastName : "CITIZEN";
         string sex = player != null ? player.sex : "M";
         string dob = player != null ? player.dateOfBirth : "01.01.1990";
+        Sprite playerPortrait = player != null ? player.selectedPortrait : null;
 
-        // Генерация переменных данных
-        string passNum = PassportGenerator.GeneratePassportNumber();
-        string idNum = PassportGenerator.GenerateIdNumber();
-        PassportGenerator.GenerateDates(dob, out string issueDate, out string expiryDate);
+        // 3. Берем постоянные сгенерированные данные паспорта из PlayerData вместо случайной генерации
+        string passNum = player != null ? player.passportNumber : "AB0000000";
+        string idNum = player != null ? player.idNumber : "0000000A000AA";
+        string issueDate = player != null ? player.issueDate : "01.01.2005";
+        string expiryDate = player != null ? player.expiryDate : "01.01.2015";
 
-        // Заполняем текстовые поля
+        // 4. Заполняем текстовые поля
         if (typeText) typeText.text = "P";
         if (codeText) codeText.text = "BLR";
         if (passportNumberText) passportNumberText.text = passNum;
@@ -60,13 +68,17 @@ public class PassportView : MonoBehaviour
         if (authorityText) authorityText.text = "MINISTRY OF INTERNAL AFFAIRS";
         if (expiryDateText) expiryDateText.text = expiryDate;
 
-        // Устанавливаем фото (если есть)
-        if (photoImage && defaultPlayerPhoto)
+        // 5. Устанавливаем фото (если есть)
+        if (photoImage && playerPortrait != null)
         {
-            photoImage.sprite = defaultPlayerPhoto;
+            photoImage.sprite = playerPortrait;
+        }
+        else if (photoImage && defaultPlayerPhoto != null)
+        {
+            photoImage.sprite = defaultPlayerPhoto; // Фоллбэк-заглушка
         }
 
-        // Генерация машиночитаемой зоны (MRZ) в стиле белорусского паспорта
+        // 6. Генерация машиночитаемой зоны (MRZ) в стиле белорусского паспорта
         if (mrzText)
         {
             string mrzLine1 = $"P<BLR{lName.ToUpper()}<<{fName.ToUpper()}<<<<<<<<<<<<<<<<<<<<<<";

@@ -7,10 +7,12 @@ public class PlayerInventoryHandler
 {
     private PlayerController owner;
     private InventorySlot[] inventory;
-    private int selectedSlotIndex = 0;
+    private int selectedSlotIndex = -1; // -1 означает, что руки пусты
 
     private Transform inventorySlotsParent;
     private List<GameObject> spawnedSlots = new List<GameObject>();
+
+    private GameObject currentHandItemModel; // Текущая 3D модель в руке
 
     public class InventorySlot
     {
@@ -22,14 +24,12 @@ public class PlayerInventoryHandler
     {
         this.owner = owner;
 
-        // Находим панель инвентаря на сцене
         GameObject panelObj = GameObject.Find("InventoryPanel");
         if (panelObj != null)
         {
             inventorySlotsParent = panelObj.transform;
         }
 
-        // Автоматически определяем количество ячеек, которые вы создали в UI!
         int slotCount = inventorySlotsParent != null ? inventorySlotsParent.childCount : 3;
         owner.inventorySize = slotCount;
 
@@ -39,7 +39,6 @@ public class PlayerInventoryHandler
             inventory[i] = new InventorySlot();
         }
 
-        // Собираем уже существующие на сцене ячейки из UI
         spawnedSlots.Clear();
         if (inventorySlotsParent != null)
         {
@@ -50,13 +49,14 @@ public class PlayerInventoryHandler
         }
 
         UpdateUI();
+        UpdateHandItemVisual();
     }
 
     public void Update()
     {
+        // 1. Цифровые клавиши для выбора слотов (1-9)
         if (Keyboard.current != null)
         {
-            // Динамический опрос цифровых клавиш от 1 до количества ячеек (до 9 штук)
             for (int i = 0; i < Mathf.Min(inventory.Length, 9); i++)
             {
                 Key digitKey = Key.Digit1 + i;
@@ -68,21 +68,93 @@ public class PlayerInventoryHandler
             }
         }
 
+        // 2. Действие "Освободить руки" (FreeHands)
+        if (owner.freeHandsAction != null && owner.freeHandsAction.action.WasPressedThisFrame())
+        {
+            FreeHands();
+        }
+
+        // 3. Подбор предмета по F (pickAction)
         if (owner.pickAction != null && owner.pickAction.action.WasPressedThisFrame())
         {
             TryPickUpToInventory();
         }
 
+        // 4. Выброс предмета из выбранного слота по G (dropAction)
         if (owner.dropAction != null && owner.dropAction.action.WasPressedThisFrame())
         {
             DropFromInventory();
         }
     }
 
-    private void ChangeSelectedSlot(int index)
+    public bool TryAddItem(ItemData item)
     {
+        int emptySlot = -1;
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (inventory[i].IsEmpty)
+            {
+                emptySlot = i;
+                break;
+            }
+        }
+
+        if (emptySlot != -1)
+        {
+            inventory[emptySlot].itemData = item;
+            UpdateUI();
+
+            // Автоматически выбираем этот слот — предмет сразу берется в руку
+            ChangeSelectedSlot(emptySlot);
+            return true;
+        }
+
+        Debug.Log("Инвентарь полон!");
+        return false;
+    }
+
+    public void ChangeSelectedSlot(int index)
+    {
+        if (index < 0 || index >= inventory.Length) return;
+
         selectedSlotIndex = index;
         UpdateUI();
+        UpdateHandItemVisual();
+    }
+
+    /// <summary>
+    /// Сбрасывает выбор слота — руки становятся пустыми
+    /// </summary>
+    public void FreeHands()
+    {
+        selectedSlotIndex = -1;
+        UpdateUI();
+        UpdateHandItemVisual();
+        Debug.Log("Руки освобождены.");
+    }
+
+    private void UpdateHandItemVisual()
+    {
+        // 1. Удаляем текущую модель из руки
+        if (currentHandItemModel != null)
+        {
+            Object.Destroy(currentHandItemModel);
+            currentHandItemModel = null;
+        }
+
+        // 2. Если слот не выбран (-1) или он пустой — рука остается пустой
+        if (selectedSlotIndex < 0 || selectedSlotIndex >= inventory.Length) return;
+
+        InventorySlot slot = inventory[selectedSlotIndex];
+        if (slot.IsEmpty) return;
+
+        // 3. Если в слоте есть предмет и у него задан префаб для руки, спавним его в Hand Socket
+        if (slot.itemData.prefabInHand != null && owner.handSocket != null)
+        {
+            currentHandItemModel = Object.Instantiate(slot.itemData.prefabInHand, owner.handSocket);
+            currentHandItemModel.transform.localPosition = Vector3.zero;
+            currentHandItemModel.transform.localRotation = Quaternion.identity;
+        }
     }
 
     private void TryPickUpToInventory()
@@ -95,21 +167,10 @@ public class PlayerInventoryHandler
             WorldItem worldItem = hit.collider.GetComponent<WorldItem>();
             if (worldItem != null && worldItem.itemData != null)
             {
-                int emptySlot = -1;
-                for (int i = 0; i < inventory.Length; i++)
+                bool success = TryAddItem(worldItem.itemData);
+                if (success)
                 {
-                    if (inventory[i].IsEmpty)
-                    {
-                        emptySlot = i;
-                        break;
-                    }
-                }
-
-                if (emptySlot != -1)
-                {
-                    inventory[emptySlot].itemData = worldItem.itemData;
                     Object.Destroy(hit.collider.gameObject);
-                    UpdateUI();
                 }
             }
         }
@@ -137,6 +198,7 @@ public class PlayerInventoryHandler
 
             slot.itemData = null;
             UpdateUI();
+            UpdateHandItemVisual(); // Модель из руки пропадет
         }
     }
 
@@ -150,13 +212,12 @@ public class PlayerInventoryHandler
             Transform iconTransform = slotObj.transform.Find("ItemIcon");
             Image iconImg = iconTransform != null ? iconTransform.GetComponent<Image>() : null;
 
-            // Визуальное выделение активной ячейки изменением цвета фона
             if (slotBg != null)
             {
-                slotBg.color = (i == selectedSlotIndex) ? new Color(1f, 0.9f, 0.3f, 1f) : Color.white; // Желтоватый цвет для активной
+                // Подсвечиваем активный слот только если selectedSlotIndex совпадает
+                slotBg.color = (i == selectedSlotIndex) ? new Color(1f, 0.9f, 0.3f, 1f) : Color.white;
             }
 
-            // Отображение иконки предмета
             if (iconImg != null)
             {
                 if (!inventory[i].IsEmpty && inventory[i].itemData.icon != null)

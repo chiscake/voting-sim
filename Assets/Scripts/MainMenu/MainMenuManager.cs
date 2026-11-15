@@ -4,18 +4,15 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [Header("Scenes")]
-    [SerializeField] private string gameSceneName = "GameScene"; // Имя вашей игровой сцены
-
     [Header("Camera & Views")]
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private Transform tableSeatPoint; // Точка взгляда на бюллетень (начальная)
-    [SerializeField] private Transform phoneSeatPoint; // Точка взгляда на телефон (настройки)
+    [SerializeField] private Transform tableSeatPoint;
+    [SerializeField] private Transform phoneSeatPoint;
     [SerializeField] private float transitionSpeed = 5f;
 
     [Header("UI Panels")]
-    [SerializeField] private GameObject ballotMenuPanel; // Панель бюллетеня (главное меню)
-    [SerializeField] private GameObject settingsPhonePanel; // Панель телефона (настройки)
+    [SerializeField] private GameObject ballotMenuPanel;
+    [SerializeField] private GameObject settingsPhonePanel;
 
     [Header("Settings Sliders")]
     [SerializeField] private Slider volumeSlider;
@@ -34,28 +31,28 @@ public class MainMenuManager : MonoBehaviour
 
         targetViewPoint = tableSeatPoint;
 
-        // Настройка начального состояния панелей
         if (ballotMenuPanel != null) ballotMenuPanel.SetActive(true);
         if (settingsPhonePanel != null) settingsPhonePanel.SetActive(false);
 
-        // Инициализация ползунков
-        if (volumeSlider != null)
+        // Инициализация ползунков из глобального SettingsManager
+        if (SettingsManager.Instance != null)
         {
-            volumeSlider.value = AudioListener.volume;
-            volumeSlider.onValueChanged.AddListener(SetVolume);
-        }
+            if (volumeSlider != null)
+            {
+                volumeSlider.value = SettingsManager.Instance.GetVolume();
+                volumeSlider.onValueChanged.AddListener(SettingsManager.Instance.SetVolume);
+            }
 
-        if (brightnessSlider != null)
-        {
-            // Здесь можно подключить ваш менеджер яркости
-            brightnessSlider.value = 1f;
-            brightnessSlider.onValueChanged.AddListener(SetBrightness);
+            if (brightnessSlider != null)
+            {
+                brightnessSlider.value = SettingsManager.Instance.GetBrightness();
+                brightnessSlider.onValueChanged.AddListener(SettingsManager.Instance.SetBrightness);
+            }
         }
     }
 
     private void Update()
     {
-        // Плавный перелет камеры между столом (бюллетенем) и телефоном
         if (isTransitioning && targetViewPoint != null && mainCamera != null)
         {
             mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetViewPoint.position, Time.deltaTime * transitionSpeed);
@@ -70,11 +67,9 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    // --- КНОПКИ ГЛАВНОГО МЕНЮ (БЮЛЛЕТЕНЬ) ---
-
     public void PlayGame()
     {
-        SceneManager.LoadScene(gameSceneName);
+        SceneManager.LoadScene("CharacterCreationScene");
     }
 
     public void OpenSettings()
@@ -91,11 +86,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void QuitGame()
     {
-        Debug.Log("Выход из игры...");
         Application.Quit();
     }
-
-    // --- КНОПКИ И НАСТРОЙКИ ТЕЛЕФОНА ---
 
     public void BackToMainMenu()
     {
@@ -107,16 +99,5 @@ public class MainMenuManager : MonoBehaviour
 
         if (settingsPhonePanel != null) settingsPhonePanel.SetActive(false);
         if (ballotMenuPanel != null) ballotMenuPanel.SetActive(true);
-    }
-
-    public void SetVolume(float value)
-    {
-        AudioListener.volume = value;
-    }
-
-    public void SetBrightness(float value)
-    {
-        // Реализуйте изменение яркости через Post-Processing или мировой Overlay-панель
-        Debug.Log($"Яркость: {value}");
     }
 }
