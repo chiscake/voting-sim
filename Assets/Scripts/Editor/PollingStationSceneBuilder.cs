@@ -396,9 +396,14 @@ public static class PollingStationSceneBuilder
 
         var so = new SerializedObject(controller);
 
-        var pause = FindChildByName(canvas.transform, "PauseMenuPanel");
-        if (pause != null)
-            so.FindProperty("pauseMenuPanel").objectReferenceValue = pause.gameObject;
+        var dim = FindChildByName(canvas.transform, "WorldDimPanel")
+                  ?? FindChildByName(canvas.transform, "PauseMenuPanel");
+        if (dim != null)
+        {
+            var dimProp = so.FindProperty("worldDimPanel");
+            if (dimProp != null)
+                dimProp.objectReferenceValue = dim.gameObject;
+        }
 
         var promptTf = FindChildByName(canvas.transform, "InteractionPromptText");
         TMPro.TextMeshProUGUI prompt = null;

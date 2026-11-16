@@ -319,6 +319,16 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "OpenBrowser",
+                    "type": "Button",
+                    "id": "a7c3e1f0-2b4d-4e8a-9f1c-6d5e8a2b3c4d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -330,6 +340,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b8d4f2e1-3c5e-4f9b-a2d0-7e6f9b3c4d5e",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenBrowser",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

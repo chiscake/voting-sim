@@ -23,14 +23,17 @@ public class PlayerController : MonoBehaviour
     public float maxLookAngle = 80f;
 
     [Header("Inventory & Hand Stats")]
-    public Transform handSocket; // Точка (косточка) в руке персонажа для модели предмета
+    public Transform handSocket;
     public float pickUpRange = 4.0f;
     [HideInInspector] public int inventorySize = 3;
     public Transform itemDropPoint;
 
-    [Header("UI & Pause References")]
-    [SerializeField] private GameObject pauseMenuPanel;
+    [Header("UI & Phone References")]
+    [SerializeField] private GameObject worldDimPanel;
+    [SerializeField] private GameObject phoneView;
+    [SerializeField] private PhoneUIController phoneUiController;
     [SerializeField] private InputActionReference pauseActionReference;
+    [SerializeField] private InputActionReference openBrowserActionReference;
     public TextMeshProUGUI interactionPromptText;
 
     [Header("Input References")]
@@ -38,12 +41,12 @@ public class PlayerController : MonoBehaviour
     public InputActionReference sprintAction;
     public InputActionReference jumpAction;
     public InputActionReference lookAction;
-    public InputActionReference dropAction;        // G - выбросить из инвентаря
-    public InputActionReference pickAction;        // F - подобрать в инвентарь
-    public InputActionReference interactAction;    // E - взаимодействие (двери, столы)
-    public InputActionReference freeHandsAction;   // Действие освободить руки
+    public InputActionReference dropAction;
+    public InputActionReference pickAction;
+    public InputActionReference interactAction;
+    public InputActionReference freeHandsAction;
     [Header("Input References - UI")]
-    public InputActionReference closeAction; // Действие Close (например, ПКМ или Esc)
+    public InputActionReference closeAction;
 
     [HideInInspector] public Camera mainCamera;
     [HideInInspector] public CharacterController characterController;
@@ -62,6 +65,13 @@ public class PlayerController : MonoBehaviour
         mainCamera = GetComponentInChildren<Camera>();
         characterController = GetComponent<CharacterController>();
 
+        if (phoneUiController == null)
+            phoneUiController = GetComponent<PhoneUIController>();
+
+        // Editor can keep timeScale=0 after exiting Play while the phone pause was open.
+        isPaused = false;
+        Time.timeScale = 1f;
+
         LockCursor();
 
         movementHandler = new PlayerMovementHandler(this);
@@ -69,7 +79,9 @@ public class PlayerController : MonoBehaviour
         inventoryHandler = new PlayerInventoryHandler(this);
         interactionHandler = new PlayerInteractionHandler(this);
 
-        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
+        if (worldDimPanel != null) worldDimPanel.SetActive(false);
+        if (phoneView != null) phoneView.SetActive(false);
+        phoneUiController?.Hide();
         if (interactionPromptText != null) interactionPromptText.text = "";
     }
 
@@ -85,6 +97,7 @@ public class PlayerController : MonoBehaviour
         freeHandsAction?.action.Enable();
         closeAction?.action.Enable();
         pauseActionReference?.action.Enable();
+        openBrowserActionReference?.action.Enable();
     }
 
     private void OnDisable()
@@ -99,11 +112,12 @@ public class PlayerController : MonoBehaviour
         freeHandsAction?.action.Disable();
         closeAction?.action.Disable();
         pauseActionReference?.action.Disable();
+        openBrowserActionReference?.action.Disable();
     }
 
     private void Update()
     {
-        HandlePauseInput();
+        HandlePhoneInput();
 
         if (isPaused || isDrawingMode) return;
 
@@ -120,31 +134,88 @@ public class PlayerController : MonoBehaviour
         movementHandler.LateUpdate();
     }
 
-    private void HandlePauseInput()
+    private void HandlePhoneInput()
     {
+        if (isDrawingMode)
+            return;
+
         if (pauseActionReference != null && pauseActionReference.action.WasPressedThisFrame())
         {
-            if (!isDrawingMode) TogglePause();
+            if (isPaused && phoneUiController != null && phoneUiController.ActiveScreen == PhoneScreenId.Pause)
+                ClosePhoneModal();
+            else
+                OpenPhoneModal(PhoneScreenId.Pause);
+            return;
+        }
+
+        if (openBrowserActionReference != null && openBrowserActionReference.action.WasPressedThisFrame())
+        {
+            if (isPaused && phoneUiController != null && phoneUiController.ActiveScreen == PhoneScreenId.BrowserFeed)
+                ClosePhoneModal();
+            else
+                OpenPhoneModal(PhoneScreenId.BrowserFeed);
         }
     }
 
-    public void TogglePause()
+    public void OpenPhoneModal(PhoneScreenId screenId)
     {
-        isPaused = !isPaused;
+        isPaused = true;
+        Time.timeScale = 0f;
+        UnlockCursor();
 
-        if (isPaused)
-        {
-            Time.timeScale = 0f;
-            UnlockCursor();
-            if (pauseMenuPanel != null) pauseMenuPanel.SetActive(true);
-            if (interactionPromptText != null) interactionPromptText.text = "";
-        }
+        if (interactionPromptText != null)
+            interactionPromptText.text = "";
+
+        SetCrosshairVisible(false);
+
+        if (phoneUiController != null)
+            phoneUiController.Show(screenId);
         else
         {
-            Time.timeScale = 1f;
-            LockCursor();
-            if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
+            if (phoneView != null) phoneView.SetActive(true);
+            if (worldDimPanel != null) worldDimPanel.SetActive(true);
         }
+    }
+
+    public void ClosePhoneModal()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+        LockCursor();
+
+        if (phoneUiController != null)
+            phoneUiController.Hide();
+        else
+        {
+            if (phoneView != null) phoneView.SetActive(false);
+            if (worldDimPanel != null) worldDimPanel.SetActive(false);
+        }
+
+        SetCrosshairVisible(true);
+    }
+
+    private void SetCrosshairVisible(bool visible)
+    {
+        if (phoneUiController != null)
+        {
+            phoneUiController.SetCrosshairVisible(visible);
+            return;
+        }
+
+        foreach (var t in GetComponentsInChildren<Transform>(true))
+        {
+            if (t.name == "Crosshair")
+                t.gameObject.SetActive(visible);
+        }
+    }
+
+    /// <summary>Legacy entry used by older pause UI hooks.</summary>
+    public void TogglePause()
+    {
+        if (isPaused)
+            ClosePhoneModal();
+        else
+            OpenPhoneModal(PhoneScreenId.Pause);
     }
 
     public void LockCursor()

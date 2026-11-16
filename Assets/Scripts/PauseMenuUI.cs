@@ -14,9 +14,7 @@ public class PauseMenuUI : MonoBehaviour
     public void ResumeGame()
     {
         if (playerController != null)
-        {
-            playerController.TogglePause();
-        }
+            playerController.ClosePhoneModal();
     }
 
     // Метод для кнопки "Выход в главное меню" или закрытия игры
