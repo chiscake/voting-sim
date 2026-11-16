@@ -7,7 +7,7 @@ public class PauseMenuUI : MonoBehaviour
 
     private void Start()
     {
-        playerController = FindObjectOfType<PlayerController>();
+        playerController = FindAnyObjectByType<PlayerController>();
     }
 
     // Метод для кнопки "Продолжить" (Resume)

@@ -26,7 +26,7 @@ public class BallotCanvasDrawer : MonoBehaviour
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        playerController = FindObjectOfType<PlayerController>();
+        playerController = FindAnyObjectByType<PlayerController>();
     }
 
     private void OnEnable()

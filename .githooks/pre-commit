@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Runs repository preflight checks on staged files before every commit.
+# Enable once per clone:  git config core.hooksPath .githooks
+exec "$(git rev-parse --show-toplevel)/tools/preflight.sh"

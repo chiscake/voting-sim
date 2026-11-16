@@ -12,7 +12,7 @@ public class PassportInteractable : MonoBehaviour, IInteractable
     public void Interact(PlayerController player)
     {
         // Ищем менеджер UI осмотра паспорта на сцене и открываем его
-        PassportInspectUI inspectUI = FindObjectOfType<PassportInspectUI>();
+        PassportInspectUI inspectUI = FindAnyObjectByType<PassportInspectUI>();
         if (inspectUI != null)
         {
             inspectUI.OpenInspection();
