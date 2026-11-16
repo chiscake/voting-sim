@@ -121,6 +121,7 @@ Do **not** pull unrelated stacks (MAUI, Blazor, web, etc.) into this repo.
 - **Merging into `main`:** merge commit must use the same format and **summarize** what the branch adds (not a bare `Merge branch …`).
 - `.gitattributes`: text/diff for C#/shaders; `merge=unityyamlmerge` + `eol=lf` for Unity YAML; Git LFS for images, audio, video, 3D, fonts, `.dll`, `.unitypackage`, etc. Also LFS for `.blend` / `.fbx` / `.glb`.
 - Never commit secrets or local Editor caches.
+- **Preflight hook:** enable once per clone with `git config core.hooksPath .githooks`. Before each commit `.githooks/pre-commit` runs `tools/preflight.sh` (no Unity needed): `.meta` pairing, Build Settings scenes present, Unity version `6000.6.6f1`, no `Library/`/`Temp/`/build folders, UTF-8, no conflict markers, large files via LFS. `tools/preflight.sh --all` checks the whole repo. Bump `EXPECTED_UNITY_VERSION` in the script when upgrading Unity on purpose.
 
 ## Cleanup policy
 
