@@ -34,7 +34,7 @@ public class MainMenuManager : MonoBehaviour
         if (ballotMenuPanel != null) ballotMenuPanel.SetActive(true);
         if (settingsPhonePanel != null) settingsPhonePanel.SetActive(false);
 
-        // Инициализация ползунков из глобального SettingsManager
+        // Initialize sliders from the global SettingsManager.
         if (SettingsManager.Instance != null)
         {
             if (volumeSlider != null)
@@ -69,7 +69,9 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("CharacterCreationScene");
+        // CharacterCreationScene was referenced by the last commit but never added to the repo.
+        // Load the playable polling-station scene until that flow is committed.
+        SceneManager.LoadScene("PollingStation");
     }
 
     public void OpenSettings()
