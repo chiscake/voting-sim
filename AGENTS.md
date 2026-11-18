@@ -30,15 +30,27 @@
 | `Assets/Prefabs/PlayerHUD.prefab`                         | Canvas (pause / inventory / prompts)                                |
 | `Assets/Settings/`                                        | URP PC/Mobile assets + volume profile                               |
 | `Assets/QuickOutline/`                                    | Outline plugin (Scripts + Resources only)                           |
-| `Assets/Art/Interior/PollingStation/`                     | Sports-hall polling station art (Models/Materials/Textures/Prefabs) |
-| `Assets/Art/Interior/Home/`                               | Home location art (same subfolders)                                 |
+| `Art/Source/`                                             | Blender sources (outside Unity). Mirror: `Shared/`, `Interior/<Loc>/` |
+| `Assets/Art/Interior/PollingStation/`                     | Sports-hall runtime art (FBX, Materials, Textures, Prefabs)         |
+| `Assets/Art/Interior/Home/`                               | Home location runtime art (same subfolders)                         |
 | `Assets/Art/Exterior/<Location>/`                         | Exterior per location (e.g. `Street/`)                              |
-| `Assets/Art/Shared/`                                      | Shared materials & textures                                         |
-| `Assets/Materials/`, `Prefabs/`, `Sprites/`, `Inventory/` | Greybox mats, UI prefabs, test sprites/items                        |
+| `Assets/Art/Shared/`                                      | Shared `M_*` materials & `T_*` textures (no `.blend` under Assets)  |
+| `Assets/Materials/`, `Prefabs/`, `Sprites/`, `Inventory/` | Greybox mats (`M_*`), UI prefabs, test sprites/items                |
 | `Packages/`, `ProjectSettings/`                           | UPM + Unity project settings                                        |
 | `docs/ROADMAP.md`                                         | Product roadmap (Russian; human planning)                           |
+| `docs/agents/blender-unity-textures.md`                   | Bake/resolution + Blender↔Unity MCP material/texture runbook        |
 | `.cursor/rules/`                                          | Cursor agent rules (skills routing, conventions)                    |
 | `.gitignore` / `.gitattributes`                           | Unity ignore + YAML merge + Git LFS                                 |
+
+## Art naming and materials
+
+- **Sources:** `.blend` only under `Art/Source/` (Git LFS). Do not keep editable Blender files under `Assets/`.
+- **Runtime:** FBX / textures / `.mat` / art prefabs under `Assets/Art/…`.
+- **Prefixes:** `M_` materials, `T_` textures (Latin PascalCase). FBX/prefab names stay readable without `SM_`/`PF_`.
+- **Shared-first:** new materials go in `Assets/Art/Shared/Materials` (and `Art/Source/Shared/MaterialsLibrary.blend`). Location folders hold unique texture content; local `.mat` only for true one-shots.
+- **Remapper:** [`Assets/Editor/SharedMaterialRemapper.cs`](Assets/Editor/SharedMaterialRemapper.cs) matches Blender slot names to Shared materials by **exact** name — keep Blender material names = Unity `M_*` names.
+- **Pipeline details:** [`docs/agents/blender-unity-textures.md`](docs/agents/blender-unity-textures.md) (resolution formula, bake, MCP runbook, pilot tile).
+- **Moves inside `Assets/`:** Unity Editor / Unity MCP only (preserve GUID/`.meta`), then `git add -A`. Do not `git mv` the same assets in parallel.
 
 ## Current gameplay state
 
