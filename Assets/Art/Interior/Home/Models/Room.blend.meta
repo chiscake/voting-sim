@@ -42,6 +42,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: MetalGold
+    second: {fileID: -7835418431106055017, guid: 0e16781782d8cf14a8def70ce318a106, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: MetalPaintWhiteLuminaire
     second: {fileID: 2100000, guid: b9238451a1532cd46bec0bb68a256295, type: 2}
   - first:
