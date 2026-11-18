@@ -52,6 +52,71 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_BlackPlastic
+    second: {fileID: 2100000, guid: 9a57dd555ff959e4ea139df88ba61277, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_CoatOfArms
+    second: {fileID: 2100000, guid: f3620d1300c77714fb1890c1f1783cd0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_FrostedGlass
+    second: {fileID: 2100000, guid: ce0823a581a408d4b90b421e6b881ece, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Glass
+    second: {fileID: 2100000, guid: e79ed9f940761964e8e6db7220dc8004, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GlossyMetal
+    second: {fileID: 2100000, guid: 13c346632ac52c94285e4af04baf65c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GlossySteel
+    second: {fileID: 2100000, guid: 7243903fdb809904e9f1e0c1a8e3d091, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Matte
+    second: {fileID: 2100000, guid: 0c7e02d92fe7d3d46b9fb780900a6b34, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MetalPaintWhiteLuminaire
+    second: {fileID: 2100000, guid: b9238451a1532cd46bec0bb68a256295, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_PVC
+    second: {fileID: 2100000, guid: efac7f59c81244b4dbba3abe7cc4ac07, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_PlasticDiffuserWhite
+    second: {fileID: 2100000, guid: 940ce6510fe652f4c8bbe27f96ae59c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_SvgMat
+    second: {fileID: 2100000, guid: 543c578aa567e7a498e68aa16e5dbf92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_ThickWhitePaper
+    second: {fileID: 2100000, guid: c023fcaa5959c694db45c2dee13b2834, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_WoodWhiteLaminate
+    second: {fileID: 2100000, guid: f3a2cc717e674fe4aa15fe15cae8d063, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Matte
     second: {fileID: 2100000, guid: 0c7e02d92fe7d3d46b9fb780900a6b34, type: 2}
   - first:
