@@ -29,6 +29,10 @@ Read `AGENTS.md` at the repo root for layout, roadmap stage, and cleanup policy.
 | Editor automation / scene edits via CLI | `unity-cli` (+ `unity-pipeline` if Editor open) |
 | URP Volume / post-fx                    | `urp-postprocessing`                            |
 | UPM packages                            | `unity-package-management`                      |
+| Blender procedural / node assembly      | `blender-shader-assembly` (`.cursor/skills/`)   |
+| Furniture UV / grain / islands          | `blender-uv-furniture` (`.cursor/skills/`)      |
+| Bake `T_*`/`M_*`, prop FBX export       | `blender-unity-textures` (`.cursor/skills/`)    |
+| Room bake manifest + FBX gate           | `art-bake-orchestrator` (`.cursor/skills/`)     |
 
 Ignore unrelated ecosystems (web, MAUI, Blazor, etc.).
 
