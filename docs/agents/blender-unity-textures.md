@@ -93,13 +93,17 @@ Inside `Assets/`: rename/move only via Unity (`AssetDatabase` / Unity MCP) so GU
 
 `.blend` out of `Assets/`: filesystem/git into `Art/Source/`; delete leftover Unity `.meta` for those blends.
 
-## Pilot example (canonical)
+## Pilot example (canonical) — done on `chore/art-restructure`
 
-Tile: **0.24 × 0.96 m** at ~2133 px/m → image **512 × 2048**.
+Tile: **0.24 × 0.96 m** → image **512 × 2048** (~2133 px/m).
 
-1. In `MaterialsLibrary.blend`, LookdevGrid plane at 0.24 × 0.96 m; procedural wood → bake Diffuse Color to `T_PilotWoodTile.png` under `Assets/Art/Shared/Textures/`.
-2. Export-ready material `M_PilotWoodTile`: Image Texture → Base Color only; record Roughness/Metallic for Unity.
-3. Unity: albedo sRGB, Wrap Repeat, Max Size ≥ 2048; URP Lit Base Map = texture; Smoothness = `1 − Roughness`; Tiling as needed for the target surface.
+| Artifact | Path |
+| --- | --- |
+| Source library | `Art/Source/Shared/MaterialsLibrary.blend` (`LookdevGrid`, `BakeSetup`, `Materials`) |
+| Baked albedo | `Assets/Art/Shared/Textures/T_PilotWoodTile.png` |
+| Unity material | `Assets/Art/Shared/Materials/M_PilotWoodTile.mat` (URP Lit) |
+
+Parameters used: Cycles Diffuse Color-only, samples 8, margin 16; Blender Roughness **0.45**, Metallic **0**; Unity Smoothness **0.55**, Wrap **Repeat**, Max Size **2048**, Aniso **8**.
 
 Do not rebake the whole library in routine chores; extend tile-by-tile when a material needs a pattern.
 
