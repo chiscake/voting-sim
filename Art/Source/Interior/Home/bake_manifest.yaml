@@ -1,0 +1,144 @@
+# Home / Room bake manifest (draft from live Room.blend inventory)
+# normal: omitted → detect_bake_maps / Bump in assembly decides T_*_N
+# size_m / density for tiles are starting guesses — tune before final bake
+
+source_blend: Art/Source/Interior/Home/Room.blend
+unity_fbx: Assets/Art/Interior/Home/Models/Room.fbx
+export_fbx: auto
+export_objects:
+  - Blackout
+  - Cabinet
+  - Chair
+  - Door
+  - Floor
+  - Lamp
+  - LightSwitch
+  - LightSwitchButton
+  - Roof
+  - Sofa
+  - TV
+  - Table
+  - Walls
+  - Window
+
+materials:
+  # --- Shared library tiles / patterns ---
+  - assembly: M_Walnut
+    mode: tile
+    size_m: [0.24, 0.96]
+    density: 2133
+    texture: Assets/Art/Shared/Textures/T_Walnut.png
+    unity_mat: Assets/Art/Shared/Materials/M_Walnut.mat
+    roughness: 0.4
+    metallic: 0
+
+  - assembly: M_HoneyOak
+    mode: tile
+    size_m: [0.24, 0.96]
+    density: 2133
+    texture: Assets/Art/Shared/Textures/T_HoneyOak.png
+    unity_mat: Assets/Art/Shared/Materials/M_HoneyOak.mat
+    roughness: 0.4
+    metallic: 0
+
+  - assembly: M_StainedOak
+    mode: tile
+    size_m: [0.24, 0.96]
+    density: 2133
+    texture: Assets/Art/Shared/Textures/T_StainedOak.png
+    unity_mat: Assets/Art/Shared/Materials/M_StainedOak.mat
+    roughness: 0.45
+    metallic: 0
+
+  - assembly: M_TaupeLacquer
+    mode: tile
+    size_m: [0.24, 0.96]
+    density: 2133
+    texture: Assets/Art/Shared/Textures/T_TaupeLacquer.png
+    unity_mat: Assets/Art/Shared/Materials/M_TaupeLacquer.mat
+    roughness: 0.4
+    metallic: 0
+
+  - assembly: M_CreamBoucleFabric
+    mode: tile
+    size_m: [0.5, 0.5]
+    density: 1024
+    texture: Assets/Art/Shared/Textures/T_CreamBoucleFabric.png
+    unity_mat: Assets/Art/Shared/Materials/M_CreamBoucleFabric.mat
+    roughness: 0.9
+    metallic: 0
+
+  - assembly: M_BlackPlastic
+    mode: tile
+    size_m: [0.25, 0.25]
+    density: 1024
+    texture: Assets/Art/Shared/Textures/T_BlackPlastic.png
+    unity_mat: Assets/Art/Shared/Materials/M_BlackPlastic.mat
+    roughness: 0.45
+    metallic: 0
+
+  # --- Local unique (Room only) ---
+  - assembly: M_Wallpaper
+    mode: atlas
+    object: Walls
+    texture: Assets/Art/Interior/Home/Textures/T_Wallpaper.png
+    unity_mat: Assets/Art/Interior/Home/Materials/M_Wallpaper.mat
+    roughness: 0.85
+    metallic: 0
+
+  - assembly: M_Floor
+    mode: atlas
+    object: Floor
+    texture: Assets/Art/Interior/Home/Textures/T_Floor.png
+    unity_mat: Assets/Art/Interior/Home/Materials/M_Floor.mat
+    roughness: 0.4
+    metallic: 0
+
+  # --- Flat shared (no bake) ---
+  - assembly: M_WhitePlaster
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_WhitePlaster.mat
+    roughness: 0.8
+    metallic: 0
+
+  - assembly: M_Matte
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_Matte.mat
+    roughness: 0.4
+    metallic: 1.0
+
+  - assembly: M_GlossyMetal
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_GlossyMetal.mat
+    roughness: 0.12
+    metallic: 1.0
+
+  - assembly: M_Blackout
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_Blackout.mat
+    roughness: 1.0
+    metallic: 0
+
+  - assembly: M_PVC
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_PVC.mat
+    roughness: 0.4
+    metallic: 0
+
+  - assembly: M_PlasticDiffuserWhite
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_PlasticDiffuserWhite.mat
+    roughness: 0.25
+    metallic: 0
+
+  - assembly: M_Glass
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_Glass.mat
+    roughness: 0.02
+    metallic: 0
+
+  - assembly: M_StretchSatinWhite
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_StretchSatinWhite.mat
+    roughness: 0.3
+    metallic: 0
