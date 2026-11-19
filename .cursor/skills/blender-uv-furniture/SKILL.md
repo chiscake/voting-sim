@@ -38,13 +38,25 @@ Do not hang a door/wall atlas PNG on a different mesh.
 4. Reject collapsed islands (zero width/height in UV). Re-project those faces on a tangent/bitangent plane, then repack.
 5. Minimum Stretch: OK for organic/cloth; bad default for plank tabletops (grain + overflow outside 0–1). Prefer Follow Active Quads / cube/project + rotate for wood planks.
 6. Edit-mode UV edits: use `bmesh.from_edit_mesh` / `bmesh.update_edit_mesh` — do not `bmesh.to_mesh()` while in edit mode.
+7. **Atlas islands must not overlap.** Overlapping UVs overwrite each other in the bake PNG. Classic failure: Floor top face mapped to full 0–1 while sides/bottom sit in the middle → smeared strip on the top surface in Unity.
+
+## Thin slabs (Floor, Roof, similar boxes)
+
+For atlas mode on a 6-face slab:
+
+1. Dominant face (usually +Z): one large island with **aspect ≈ physical size** and margin.
+2. Sides + opposite face: pack into the leftover UV strip.
+3. Check face UV AABBs for pairwise overlap before bake.
+4. Prefer explicit projection over Smart Project alone on thin boxes.
+
+Detail: [`../art-bake-orchestrator/pitfalls.md`](../art-bake-orchestrator/pitfalls.md) §4.
 
 ## Workflow
 
 1. Identify tile vs atlas from the material plan / manifest.
 2. Fix scale; enter Edit Mode; select relevant faces.
 3. Unwrap; rotate islands for grain; pack if atlas.
-4. Validate: no zero-area islands; for atlas, `u,v` roughly in `[0,1]`.
+4. Validate: no zero-area islands; for atlas, `u,v` in `[0,1]` **and no island overlaps**.
 5. Hand off to bake skill.
 
 ## Helper

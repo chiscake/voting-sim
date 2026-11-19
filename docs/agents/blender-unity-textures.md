@@ -149,3 +149,11 @@ Do not rebake the whole library in routine chores; extend tile-by-tile when a ma
 | Slow bake                 | High samples                       | Max Samples 1–16                         |
 | Blurry in Unity           | Max Size 2048 or low density       | Raise Max Size / density                 |
 | Seams vanish              | Detail &lt; 2 px                   | Smaller high-density tile                |
+| Black / tiny bake PNG; `BakeReceiver` image stays `None` | Assembly is **library-linked** from MaterialsLibrary | Bake on `mat.copy()`; verify `FINISHED` + pixels |
+| Bake reports OK but map empty | Save without checking bake result | Require `FINISHED`; sample min/max pixels |
+| Smeared strip on floor/wall in Unity | Atlas UV islands **overlap**; sides overwrite top | Repack with no overlaps; rebake atlas |
+| Location mat wrong after FBX | `SharedMaterialRemapper` only scans Shared | `ModelImporter.AddRemap` for Interior/`<Loc>` mats |
+| Gate keeps `NEED_EXPORT` after good export | `.blend` saved after FBX (mtime) | Save blend, then export last — or bump FBX mtime |
+| Unity MCP C# compile fails | CodeDom limits | No `using`/local functions; simple loops |
+
+Agent skill write-up (Home/Room): [`.cursor/skills/art-bake-orchestrator/pitfalls.md`](../../.cursor/skills/art-bake-orchestrator/pitfalls.md).

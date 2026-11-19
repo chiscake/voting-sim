@@ -36,17 +36,24 @@ Room-wide batch and manifest: `art-bake-orchestrator`. Shader graphs: `blender-s
 ## Workflow
 
 1. Confirm UV ready (`blender-uv-furniture` if stretch/grain issues).
-2. Cycles; Object Mode; active bake Image Texture unconnected receiver; samples 1–16; margin 16.
-3. Save PNG to `Assets/Art/.../Textures/T_Name.png` (Source = Single Image).
-4. Unity MCP: set importer flags; create/update `M_Name` URP Lit; assign maps.
-5. If the prop/room FBX is missing under the planned `Assets/Art/.../Models/` path, run `scripts/export_fbx.py` (same conventions as the doc FBX section).
-6. Remapper binds slots whose names exactly match Shared `M_*` mats.
+2. If the assembly is **library-linked**, bake on `mat.copy()` only — linked node trees reject BakeReceiver images (black PNG).
+3. Cycles; Object Mode; BakeReceiver Image Texture selected + `nodes.active`; confirm `img_node.image is not None`; samples 1–16; margin 16.
+4. Bake must return `FINISHED`; spot-check pixel min/max before trusting the PNG.
+5. Save PNG to manifest/`Assets/Art/.../Textures/T_Name.png` (Source = Single Image).
+6. Unity MCP: set importer flags; create/update `M_Name` URP Lit; assign maps (CodeDom-safe C# — no `using`/local functions).
+7. If the prop/room FBX is missing under the planned `Assets/Art/.../Models/` path, run `scripts/export_fbx.py` with Image→Principled slots named `M_*`.
+8. `SharedMaterialRemapper` binds **Shared** `M_*` only; location mats need explicit `AddRemap`.
 
 ## Helpers (Blender MCP)
 
 Paste/execute script contents in the live Blender session:
 
-- `scripts/bake_to_png.py` — create image, bake Diffuse Color, save PNG
+- `scripts/bake_to_png.py` — create image, bake Diffuse Color, save PNG (still verify FINISHED + pixels)
 - `scripts/export_fbx.py` — export selected objects to `Assets/Art/.../Models/`
 
 Unity checklist: `scripts/unity_import_material.md`.
+
+## Pitfalls
+
+Room-batch failure modes (linked bake, atlas overwrite, remapper scope, FBX gate mtime):
+[`../art-bake-orchestrator/pitfalls.md`](../art-bake-orchestrator/pitfalls.md).
