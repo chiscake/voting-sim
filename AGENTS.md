@@ -19,26 +19,38 @@
 
 ## Repo layout
 
-| Path                                                      | Role                                                                |
-| --------------------------------------------------------- | ------------------------------------------------------------------- |
-| `Assets/Scripts/`                                         | Gameplay C# (player, interact, ballot, inventory, pause)            |
-| `Assets/Scripts/PlayerController/`                        | Movement / look / interaction / inventory handlers                  |
-| `Assets/Scripts/InteractableObjects/`                     | World interactables (e.g. ballot)                                   |
-| `Assets/Scenes/SampleScene.unity`                         | Dev/test sandbox — keep; do not replace with the polling station    |
-| `Assets/Scenes/PollingStation.unity`                      | Sports-hall greybox 12×24×6 (specs); windows W, doors E             |
-| `Assets/Prefabs/Player.prefab`                            | FPS player extracted from SampleScene                               |
-| `Assets/Prefabs/PlayerHUD.prefab`                         | Canvas (pause / inventory / prompts)                                |
-| `Assets/Settings/`                                        | URP PC/Mobile assets + volume profile                               |
-| `Assets/QuickOutline/`                                    | Outline plugin (Scripts + Resources only)                           |
-| `Assets/Art/Interior/PollingStation/`                     | Sports-hall polling station art (Models/Materials/Textures/Prefabs) |
-| `Assets/Art/Interior/Home/`                               | Home location art (same subfolders)                                 |
-| `Assets/Art/Exterior/<Location>/`                         | Exterior per location (e.g. `Street/`)                              |
-| `Assets/Art/Shared/`                                      | Shared materials & textures                                         |
-| `Assets/Materials/`, `Prefabs/`, `Sprites/`, `Inventory/` | Greybox mats, UI prefabs, test sprites/items                        |
-| `Packages/`, `ProjectSettings/`                           | UPM + Unity project settings                                        |
-| `docs/ROADMAP.md`                                         | Product roadmap (Russian; human planning)                           |
-| `.cursor/rules/`                                          | Cursor agent rules (skills routing, conventions)                    |
-| `.gitignore` / `.gitattributes`                           | Unity ignore + YAML merge + Git LFS                                 |
+| Path                                                      | Role                                                                  |
+| --------------------------------------------------------- | --------------------------------------------------------------------- |
+| `Assets/Scripts/`                                         | Gameplay C# (player, interact, ballot, inventory, pause)              |
+| `Assets/Scripts/PlayerController/`                        | Movement / look / interaction / inventory handlers                    |
+| `Assets/Scripts/InteractableObjects/`                     | World interactables (e.g. ballot)                                     |
+| `Assets/Scenes/SampleScene.unity`                         | Dev/test sandbox — keep; do not replace with the polling station      |
+| `Assets/Scenes/PollingStation.unity`                      | Sports-hall greybox 12×24×6 (specs); windows W, doors E               |
+| `Assets/Prefabs/Player.prefab`                            | FPS player extracted from SampleScene                                 |
+| `Assets/Prefabs/PlayerHUD.prefab`                         | Canvas (pause / inventory / prompts)                                  |
+| `Assets/Settings/`                                        | URP PC/Mobile assets + volume profile                                 |
+| `Assets/QuickOutline/`                                    | Outline plugin (Scripts + Resources only)                             |
+| `Art/Source/`                                             | Blender sources (outside Unity). Mirror: `Shared/`, `Interior/<Loc>/` |
+| `Assets/Art/Interior/PollingStation/`                     | Sports-hall runtime art (FBX, Materials, Textures, Prefabs)           |
+| `Assets/Art/Interior/Home/`                               | Home location runtime art (same subfolders)                           |
+| `Assets/Art/Exterior/<Location>/`                         | Exterior per location (e.g. `Street/`)                                |
+| `Assets/Art/Shared/`                                      | Shared `M_*` materials & `T_*` textures (no `.blend` under Assets)    |
+| `Assets/Materials/`, `Prefabs/`, `Sprites/`, `Inventory/` | Greybox mats (`M_*`), UI prefabs, test sprites/items                  |
+| `Packages/`, `ProjectSettings/`                           | UPM + Unity project settings                                          |
+| `docs/ROADMAP.md`                                         | Product roadmap (Russian; human planning)                             |
+| `docs/agents/blender-unity-textures.md`                   | Bake/resolution + Blender↔Unity MCP material/texture runbook          |
+| `.cursor/rules/`                                          | Cursor agent rules (skills routing, conventions)                      |
+| `.gitignore` / `.gitattributes`                           | Unity ignore + YAML merge + Git LFS                                   |
+
+## Art naming and materials
+
+- **Sources:** `.blend` only under `Art/Source/` (Git LFS). Do not keep editable Blender files under `Assets/`.
+- **Runtime:** FBX / textures / `.mat` / art prefabs under `Assets/Art/…`.
+- **Prefixes:** `M_` materials, `T_` textures (Latin PascalCase). FBX/prefab names stay readable without `SM_`/`PF_`.
+- **Shared-first:** new materials go in `Assets/Art/Shared/Materials` (and `Art/Source/Shared/MaterialsLibrary.blend`). Location folders hold unique texture content; local `.mat` only for true one-shots.
+- **Remapper:** [`Assets/Editor/SharedMaterialRemapper.cs`](Assets/Editor/SharedMaterialRemapper.cs) matches Blender slot names to Shared materials by **exact** name — keep Blender material names = Unity `M_*` names.
+- **Pipeline details:** [`docs/agents/blender-unity-textures.md`](docs/agents/blender-unity-textures.md) (resolution formula, bake, MCP runbook, pilot tile).
+- **Moves inside `Assets/`:** Unity Editor / Unity MCP only (preserve GUID/`.meta`), then `git add -A`. Do not `git mv` the same assets in parallel.
 
 ## Current gameplay state
 
@@ -50,20 +62,24 @@ Greybox room scene exists: `PollingStation.unity` (rebuild via menu **Voting Sim
 
 ## Required skills (read before related work)
 
-Agent skills live under the user's installed skills roots (e.g. `.agents/skills/`). **Read the matching `SKILL.md` before implementing.** Cursor rules in `.cursor/rules/` reinforce this.
+Agent skills live under the user's installed skills roots (e.g. `.agents/skills/`) and project [`.cursor/skills/`](.cursor/skills/). **Read the matching `SKILL.md` before implementing.** Cursor rules in `.cursor/rules/` reinforce this.
 
-| When                                  | Skill name                                         |
-| ------------------------------------- | -------------------------------------------------- |
-| Any Unity `.cs` / MonoBehaviour       | `unity-csharp-scripting`                           |
-| Input / `.inputactions` / actions     | `unity-input-system`                               |
-| UI without named framework            | `ui` (then route)                                  |
-| Canvas / RectTransform / uGUI         | `ui-ugui`                                          |
-| Colliders, triggers, raycasts miss    | `physics-3d-collision`                             |
-| Drive Editor / scenes / batch / tests | `unity-cli` (+ `unity-pipeline` if Editor is open) |
-| URP Volume / post-processing          | `urp-postprocessing`                               |
-| Add/remove/upgrade UPM packages       | `unity-package-management`                         |
-| TMP fonts / atlas / performance       | `optimize-text-mesh-pro`                           |
-| Project Auditor CSV fixes             | `project-auditor-fixes`                            |
+| When                                                  | Skill name                                                                                                                         |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Any Unity `.cs` / MonoBehaviour                       | `unity-csharp-scripting`                                                                                                           |
+| Input / `.inputactions` / actions                     | `unity-input-system`                                                                                                               |
+| UI without named framework                            | `ui` (then route)                                                                                                                  |
+| Canvas / RectTransform / uGUI                         | `ui-ugui`                                                                                                                          |
+| Colliders, triggers, raycasts miss                    | `physics-3d-collision`                                                                                                             |
+| Drive Editor / scenes / batch / tests                 | `unity-cli` (+ `unity-pipeline` if Editor is open)                                                                                 |
+| URP Volume / post-processing                          | `urp-postprocessing`                                                                                                               |
+| Add/remove/upgrade UPM packages                       | `unity-package-management`                                                                                                         |
+| TMP fonts / atlas / performance                       | `optimize-text-mesh-pro`                                                                                                           |
+| Project Auditor CSV fixes                             | `project-auditor-fixes`                                                                                                            |
+| Blender procedural shader / node assembly             | `blender-shader-assembly` (`.cursor/skills/`)                                                                                      |
+| Furniture / arch UV stretch, grain, islands           | `blender-uv-furniture` (`.cursor/skills/`)                                                                                         |
+| Bake tile/atlas → `T_*` / `M_*`, FBX for single props | `blender-unity-textures` (`.cursor/skills/`; see [`docs/agents/blender-unity-textures.md`](docs/agents/blender-unity-textures.md)) |
+| Room/location bake manifest + FBX gate                | `art-bake-orchestrator` (`.cursor/skills/`)                                                                                        |
 
 Do **not** pull unrelated stacks (MAUI, Blazor, web, etc.) into this repo.
 
@@ -111,6 +127,7 @@ Do **not** pull unrelated stacks (MAUI, Blazor, web, etc.) into this repo.
   - On **`main`:** subject description and bullets in **Russian** (type stays English).
   - On feature branches: English is OK.
   - Example:
+
     ```
     feat: greybox сцена избирательного участка, очистка и база для арта
 
@@ -118,6 +135,7 @@ Do **not** pull unrelated stacks (MAUI, Blazor, web, etc.) into this repo.
     - удалены туториалы TMP/URP
     - настроен EditorConfig UTF-8
     ```
+
 - **Merging into `main`:** merge commit must use the same format and **summarize** what the branch adds (not a bare `Merge branch …`).
 - `.gitattributes`: text/diff for C#/shaders; `merge=unityyamlmerge` + `eol=lf` for Unity YAML; Git LFS for images, audio, video, 3D, fonts, `.dll`, `.unitypackage`, etc. Also LFS for `.blend` / `.fbx` / `.glb`.
 - Never commit secrets or local Editor caches.

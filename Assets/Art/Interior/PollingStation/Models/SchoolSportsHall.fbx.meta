@@ -52,6 +52,156 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_BlackPlastic
+    second: {fileID: 2100000, guid: 9a57dd555ff959e4ea139df88ba61277, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Blackout
+    second: {fileID: 2100000, guid: 8b6f70cb5fec51945826bce83da722f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_CoatOfArms
+    second: {fileID: 2100000, guid: f3620d1300c77714fb1890c1f1783cd0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_CreamBoucleFabric
+    second: {fileID: 2100000, guid: 18b2d9c18d5eb9542b80f720fa9da325, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Flag
+    second: {fileID: 2100000, guid: d8d2db3e9f01f124fbd5bc4c4dd831da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_FrostedGlass
+    second: {fileID: 2100000, guid: ce0823a581a408d4b90b421e6b881ece, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Glass
+    second: {fileID: 2100000, guid: e79ed9f940761964e8e6db7220dc8004, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GlossyMetal
+    second: {fileID: 2100000, guid: 13c346632ac52c94285e4af04baf65c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GlossySteel
+    second: {fileID: 2100000, guid: 7243903fdb809904e9f1e0c1a8e3d091, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GymFloor
+    second: {fileID: 2100000, guid: 7a9b7ce5734e5654f9d3b330854f59b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_HoneyOak
+    second: {fileID: 2100000, guid: a8a55e5d1ead1174a9cff4fd7ca1828f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Matte
+    second: {fileID: 2100000, guid: 0c7e02d92fe7d3d46b9fb780900a6b34, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MetalBlack
+    second: {fileID: 2100000, guid: 0a9cc4d42ccff304daafe9cfdd63bfc4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MetalLightGrayPaint
+    second: {fileID: 2100000, guid: f02de3f0e3cbecb4fb7fd57cb04ec49e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MetalPaintWhiteLuminaire
+    second: {fileID: 2100000, guid: b9238451a1532cd46bec0bb68a256295, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MetalSteel
+    second: {fileID: 2100000, guid: a0e267aed5a2fff439f4a93986322626, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MetalWhitePaint
+    second: {fileID: 2100000, guid: 27133b70ccc436d4ca68875658b83dbb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_PVC
+    second: {fileID: 2100000, guid: efac7f59c81244b4dbba3abe7cc4ac07, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_PilotWoodTile
+    second: {fileID: 2100000, guid: 8b5b06b94f7b44c4497aaddddf99f22f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_PlasticDiffuserWhite
+    second: {fileID: 2100000, guid: 940ce6510fe652f4c8bbe27f96ae59c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_StainedOak
+    second: {fileID: 2100000, guid: 3238ed5597a35314bb4cb0a0afb36147, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_StretchSatinWhite
+    second: {fileID: 2100000, guid: 2482fe69dd4c9e74bbf89fc169cac910, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_SvgMat
+    second: {fileID: 2100000, guid: 543c578aa567e7a498e68aa16e5dbf92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_TaupeLacquer
+    second: {fileID: 2100000, guid: 1dad2423682d2c249b5f3d556ee0fe35, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_ThickWhitePaper
+    second: {fileID: 2100000, guid: c023fcaa5959c694db45c2dee13b2834, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_WallTeal
+    second: {fileID: 2100000, guid: ae50ee23be52f0948a580e2ac9aa74af, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Walnut
+    second: {fileID: 2100000, guid: d67dbbd6d64c4834d94289272c9a0bf0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_WhitePlaster
+    second: {fileID: 2100000, guid: c19475bcf5ace9b44b451c42c76e3fe8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_WindowWhiteoutEmissive
+    second: {fileID: 2100000, guid: 08faca0d5ccd5554a8b6bb88bee6c69c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_WoodWhiteLaminate
+    second: {fileID: 2100000, guid: f3a2cc717e674fe4aa15fe15cae8d063, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Matte
     second: {fileID: 2100000, guid: 0c7e02d92fe7d3d46b9fb780900a6b34, type: 2}
   - first:
@@ -101,8 +251,8 @@ ModelImporter:
     second: {fileID: 2100000, guid: f3a2cc717e674fe4aa15fe15cae8d063, type: 2}
   materials:
     materialImportMode: 2
-    materialName: 0
-    materialSearch: 1
+    materialName: 1
+    materialSearch: 0
     materialLocation: 1
     searchTexturesGlobally: 0
   animations:

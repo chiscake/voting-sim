@@ -1,0 +1,112 @@
+# PollingStation / SchoolSportsHall bake manifest
+# Inventory from live SchoolSportsHall.blend + MaterialsLibrary links.
+# Props (Booth / BallotBox / Flagpole) are separate .blend files — own manifests later.
+#
+# Shared authored images (no bake):
+#   Art/Source/Shared/Textures/Flag.png          → M_Flag (Flagpole)
+#   Art/Source/Shared/Textures/Coat_of_arms.png  → M_CoatOfArms (BallotBox)
+#   Art/Source/Interior/PollingStation/Textures/T_GymFloorMask.png
+#     → Unity Non-Color Clamp (paint mask for M_GymFloor Shader Graph / custom)
+#
+# M_GymFloor = variant B (tile boards + UV mask), not whole-floor atlas.
+# Bake only the Brick board tile (+ normal from Bump); keep mask as authored PNG.
+
+source_blend: Art/Source/Interior/PollingStation/SchoolSportsHall.blend
+unity_fbx: Assets/Art/Interior/PollingStation/Models/SchoolSportsHall.fbx
+export_fbx: auto
+export_objects:
+  - Beams
+  - Blackout
+  - Floor
+  - Handle
+  - HandleFrame
+  - Hinge.004
+  - Light.003
+  - MainDoor.001
+  - MainDoor.002
+  - MainDoorFrame
+  - Roof
+  - SecondaryDoorFrame.001
+  - SecondaryDoorFrame.002
+  - Wall.001
+  - Wall.002
+  - Wall.003
+  - Wall.004
+  - WindowFrame
+
+materials:
+  # --- Tile: gym floor boards (Object-space Brick 1.2×0.09 m) ---
+  # Orchestrator: bake assembly boards branch only (or isolate LookdevGrid tile).
+  # Do not bake Multiply(paint, boards) into one atlas — mask stays separate.
+  # Tile: 1 board length × 2 rows (0.18m) so stagger offset_frequency=2 wraps in V
+  - assembly: M_GymFloor
+    mode: tile
+    size_m: [1.2, 0.18]
+    density: 1024
+    texture: Assets/Art/Interior/PollingStation/Textures/T_GymFloorBoards.png
+    normal: Assets/Art/Interior/PollingStation/Textures/T_GymFloorBoards_N.png
+    unity_mat: Assets/Art/Interior/PollingStation/Materials/M_GymFloor.mat
+    roughness: 0.3
+    metallic: 0
+
+  # --- Local flat (hall paint band) ---
+  - assembly: M_WallTeal
+    mode: flat
+    unity_mat: Assets/Art/Interior/PollingStation/Materials/M_WallTeal.mat
+    roughness: 0.65
+    metallic: 0
+
+  # --- Shared flats (library; no bake) ---
+  - assembly: M_WhitePlaster
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_WhitePlaster.mat
+    roughness: 0.8
+    metallic: 0
+
+  - assembly: M_Blackout
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_Blackout.mat
+    roughness: 1.0
+    metallic: 0
+
+  - assembly: M_PVC
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_PVC.mat
+    roughness: 0.4
+    metallic: 0
+
+  - assembly: M_Glass
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_Glass.mat
+    roughness: 0.02
+    metallic: 0
+
+  - assembly: M_PlasticDiffuserWhite
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_PlasticDiffuserWhite.mat
+    roughness: 0.25
+    metallic: 0
+
+  - assembly: M_MetalBlack
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_MetalBlack.mat
+    roughness: 0.35
+    metallic: 0.7
+
+  - assembly: M_MetalSteel
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_MetalSteel.mat
+    roughness: 0.35
+    metallic: 1.0
+
+  - assembly: M_MetalLightGrayPaint
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_MetalLightGrayPaint.mat
+    roughness: 0.45
+    metallic: 0
+
+  - assembly: M_MetalWhitePaint
+    mode: flat
+    unity_mat: Assets/Art/Shared/Materials/M_MetalWhitePaint.mat
+    roughness: 0.4
+    metallic: 0
