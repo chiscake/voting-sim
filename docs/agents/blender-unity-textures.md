@@ -11,11 +11,11 @@ Agent-facing pipeline for voting-sim. Source Blender files live in `Art/Source/`
 
 ## Material classes
 
-| Kind | LookdevGrid / bake | Unity |
-| --- | --- | --- |
-| Flat (paint, plastic, metal, glass) | Small preview plane; **no bake** | Color + Smoothness + Metallic |
-| Repeating pattern | Plane = **physical tile size**; bake tile | `T_*` Wrap Repeat; Tiling = surface / tile |
-| Unique (mask, flag) | Object UV or mask; not a library tile | Clamp; optional Shader Graph later |
+| Kind                                | LookdevGrid / bake                        | Unity                                      |
+| ----------------------------------- | ----------------------------------------- | ------------------------------------------ |
+| Flat (paint, plastic, metal, glass) | Small preview plane; **no bake**          | Color + Smoothness + Metallic              |
+| Repeating pattern                   | Plane = **physical tile size**; bake tile | `T_*` Wrap Repeat; Tiling = surface / tile |
+| Unique (mask, flag)                 | Object UV or mask; not a library tile     | Clamp; optional Shader Graph later         |
 
 ## Naming
 
@@ -28,11 +28,11 @@ Agent-facing pipeline for voting-sim. Source Blender files live in `Art/Source/`
 ## Densities (starting)
 
 | Viewing distance | Density (px/m) |
-| --- | --- |
-| Far / background | ~100 |
-| Mid-range | ~200 |
-| Near (1–2 m) | 300–500 |
-| Hero close-up | 500–1000+ |
+| ---------------- | -------------- |
+| Far / background | ~100           |
+| Mid-range        | ~200           |
+| Near (1–2 m)     | 300–500        |
+| Hero close-up    | 500–1000+      |
 
 Fine detail needs ≥2–3 px. Example: 3 mm seam → ≥700–1000 px/m via a small high-density tile, not a whole-room bake.
 
@@ -61,18 +61,31 @@ Collections: `Materials`, `LookdevGrid`, `BakeSetup`.
 - Tile mats: plane mesh size = physical tile meters; image size from formula.
 - Grid layout is for visibility; resolution comes from the Image datablock, not plane size in the viewport.
 
+## Skills + FBX gate
+
+Project skills under `.cursor/skills/`:
+
+| Skill                     | Role                                                                              |
+| ------------------------- | --------------------------------------------------------------------------------- |
+| `blender-shader-assembly` | Procedural node graphs; assembly vs `*Image` pair                                 |
+| `blender-uv-furniture`    | Tile/atlas UV, grain, collapsed islands                                           |
+| `blender-unity-textures`  | This doc’s bake + Unity import; `scripts/bake_to_png.py`, `scripts/export_fbx.py` |
+| `art-bake-orchestrator`   | `bake_manifest.yaml` batch; **FBX gate**                                          |
+
+If the planned Unity model path (e.g. `Assets/Art/Interior/Home/Models/Room.fbx`) is missing after bake — or the manifest says `export_fbx: always` / `auto` with a newer `.blend` — agents **must** export FBX via `export_fbx.py` before finishing. Do not assume the user already exported.
+
 ## FBX export
 
-Object Mode, selected objects; apply scale. Path Mode Copy (embed textures or ship PNGs beside FBX). FBX Units Scale; Forward `-Z`; Up `Y`; Apply Transform. Move `.fbx` and images into `Assets/Art/…` together.
+Object Mode, selected objects; apply scale. Path Mode Copy (embed textures or ship PNGs beside FBX). FBX Units Scale; Forward `-Z`; Up `Y`; Apply Transform. Move `.fbx` and images into `Assets/Art/…` together. Prefer `blender-unity-textures/scripts/export_fbx.py` over ad-hoc exporters.
 
 ## Unity import
 
-| Texture | sRGB | Type | Wrap |
-| --- | --- | --- | --- |
-| Albedo unique | on | Default | Clamp |
-| Albedo tile | on | Default | Repeat |
-| Normal | n/a | Normal map | Repeat for tiles |
-| Channel mask | **off** | Default | Clamp |
+| Texture       | sRGB    | Type       | Wrap             |
+| ------------- | ------- | ---------- | ---------------- |
+| Albedo unique | on      | Default    | Clamp            |
+| Albedo tile   | on      | Default    | Repeat           |
+| Normal        | n/a     | Normal map | Repeat for tiles |
+| Channel mask  | **off** | Default    | Clamp            |
 
 - **Max Size** must be ≥ source resolution (default 2048 silently downsamples).
 - Mip Maps on; Aniso 4–9 for floors. High Quality compression when fine detail matters.
@@ -97,11 +110,11 @@ Inside `Assets/`: rename/move only via Unity (`AssetDatabase` / Unity MCP) so GU
 
 Tile: **0.24 × 0.96 m** → image **512 × 2048** (~2133 px/m).
 
-| Artifact | Path |
-| --- | --- |
+| Artifact       | Path                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------ |
 | Source library | `Art/Source/Shared/MaterialsLibrary.blend` (`LookdevGrid`, `BakeSetup`, `Materials`) |
-| Baked albedo | `Assets/Art/Shared/Textures/T_PilotWoodTile.png` |
-| Unity material | `Assets/Art/Shared/Materials/M_PilotWoodTile.mat` (URP Lit) |
+| Baked albedo   | `Assets/Art/Shared/Textures/T_PilotWoodTile.png`                                     |
+| Unity material | `Assets/Art/Shared/Materials/M_PilotWoodTile.mat` (URP Lit)                          |
 
 Parameters used: Cycles Diffuse Color-only, samples 8, margin 16; Blender Roughness **0.45**, Metallic **0**; Unity Smoothness **0.55**, Wrap **Repeat**, Max Size **2048**, Aniso **8**.
 
@@ -128,11 +141,19 @@ Do not rebake the whole library in routine chores; extend tile-by-tile when a ma
 
 ## Common failures
 
-| Symptom | Cause | Fix |
-| --- | --- | --- |
-| No valid selected objects | Nothing selected / hidden | Select in viewport; enable visibility |
-| Default color, no image | Generated never saved / not copied | Save PNG; ship with FBX; assign Base Map |
-| Flat albedo | Pattern only in Bump/Normal | Bake Normal or drive Base Color |
-| Slow bake | High samples | Max Samples 1–16 |
-| Blurry in Unity | Max Size 2048 or low density | Raise Max Size / density |
-| Seams vanish | Detail &lt; 2 px | Smaller high-density tile |
+| Symptom                   | Cause                              | Fix                                      |
+| ------------------------- | ---------------------------------- | ---------------------------------------- |
+| No valid selected objects | Nothing selected / hidden          | Select in viewport; enable visibility    |
+| Default color, no image   | Generated never saved / not copied | Save PNG; ship with FBX; assign Base Map |
+| Flat albedo               | Pattern only in Bump/Normal        | Bake Normal or drive Base Color          |
+| Slow bake                 | High samples                       | Max Samples 1–16                         |
+| Blurry in Unity           | Max Size 2048 or low density       | Raise Max Size / density                 |
+| Seams vanish              | Detail &lt; 2 px                   | Smaller high-density tile                |
+| Black / tiny bake PNG; `BakeReceiver` image stays `None` | Assembly is **library-linked** from MaterialsLibrary | Bake on `mat.copy()`; verify `FINISHED` + pixels |
+| Bake reports OK but map empty | Save without checking bake result | Require `FINISHED`; sample min/max pixels |
+| Smeared strip on floor/wall in Unity | Atlas UV islands **overlap**; sides overwrite top | Repack with no overlaps; rebake atlas |
+| Location mat wrong after FBX | `SharedMaterialRemapper` only scans Shared | `ModelImporter.AddRemap` for Interior/`<Loc>` mats |
+| Gate keeps `NEED_EXPORT` after good export | `.blend` saved after FBX (mtime) | Save blend, then export last — or bump FBX mtime |
+| Unity MCP C# compile fails | CodeDom limits | No `using`/local functions; simple loops |
+
+Agent skill write-up (Home/Room): [`.cursor/skills/art-bake-orchestrator/pitfalls.md`](../../.cursor/skills/art-bake-orchestrator/pitfalls.md).
