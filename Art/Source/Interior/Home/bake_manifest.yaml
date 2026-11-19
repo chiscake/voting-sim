@@ -86,10 +86,13 @@ materials:
     roughness: 0.85
     metallic: 0
 
+  # Tile: Brick 0.96×0.12 with Mapping RotZ 90 / ScaleX 0.98 → object span ~0.245×0.96 (2 rows)
   - assembly: M_Floor
-    mode: atlas
-    object: Floor
+    mode: tile
+    size_m: [0.245, 0.96]
+    density: 2133
     texture: Assets/Art/Interior/Home/Textures/T_Floor.png
+    normal: Assets/Art/Interior/Home/Textures/T_Floor_N.png
     unity_mat: Assets/Art/Interior/Home/Materials/M_Floor.mat
     roughness: 0.4
     metallic: 0

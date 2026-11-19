@@ -27,6 +27,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_Flag
+    second: {fileID: 2100000, guid: d8d2db3e9f01f124fbd5bc4c4dd831da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_Floor
     second: {fileID: 2100000, guid: c08908b233484454e9d7fedfe4b57440, type: 2}
   - first:
@@ -62,8 +67,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_MetalBlack
+    second: {fileID: 2100000, guid: 0a9cc4d42ccff304daafe9cfdd63bfc4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MetalLightGrayPaint
+    second: {fileID: 2100000, guid: f02de3f0e3cbecb4fb7fd57cb04ec49e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_MetalPaintWhiteLuminaire
     second: {fileID: 2100000, guid: b9238451a1532cd46bec0bb68a256295, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MetalSteel
+    second: {fileID: 2100000, guid: a0e267aed5a2fff439f4a93986322626, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MetalWhitePaint
+    second: {fileID: 2100000, guid: 27133b70ccc436d4ca68875658b83dbb, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
